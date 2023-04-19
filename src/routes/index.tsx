@@ -9,6 +9,7 @@ const ProtectedRoutes = lazy(() => import("./protected.routes"));
 
 const RoutesWrapper = styled.div(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
+  height: "100dvh",
 }));
 
 const routes = createBrowserRouter([

@@ -10,9 +10,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={1}>
           <AllRoutes />
-          <Button variant="contained" className="m-5 ">
-            Helloo world
-          </Button>
         </SnackbarProvider>
       </ThemeProvider>
     </LocaleProvider>
