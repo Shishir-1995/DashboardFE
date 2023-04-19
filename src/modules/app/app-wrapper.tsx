@@ -26,13 +26,13 @@ const AppWrapper: React.FC<props> = ({ children }) => {
             <div className="flex items-center gap-2">
               <Typography color="black">Hello, sanjay</Typography>
               <IconButton size="small" color="primary">
-                <Avatar className="bg-gray-500">{stringAvatar("test")}</Avatar>
+                <Avatar className="bg-gray-500">{stringAvatar("sanjay")}</Avatar>
               </IconButton>
             </div>
           </Toolbar>
         </Container>
       </AppBar>
-      {children}
+      <div className="m-4">{children}</div>
     </div>
   );
 };

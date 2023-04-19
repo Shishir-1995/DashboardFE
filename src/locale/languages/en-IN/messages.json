@@ -1,1 +1,16 @@
-{}
+{
+  "book_pp": "Book PP",
+  "upcomming_events": "Upcomming events",
+  "history": "history",
+  "topic": "Topic",
+  "pair_programmer": "Pair Programmer",
+  "join": "Join",
+  "feedback": "Feedback",
+  "cancel": "Cancel",
+  "pp_cancel_sucessfull_msg": "PP Cancel Successfully",
+  "PP_feeback_placeholder": "Type Here....",
+  "PP_feeback_dialog_title": "How was the session?",
+  "choose_course_type": "Choose Course Type",
+  "dsa": "DSA",
+  "coding": "Coding"
+}
