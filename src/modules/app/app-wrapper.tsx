@@ -32,7 +32,7 @@ const AppWrapper: React.FC<props> = ({ children }) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <div className="m-4">{children}</div>
+      <div className="m-6 pb-20">{children}</div>
     </div>
   );
 };

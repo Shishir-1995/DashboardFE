@@ -1,16 +1,23 @@
 {
   "book_pp": "Book PP",
-  "upcomming_events": "Upcomming events",
+  "upcomming_events": "Upcoming events",
   "history": "history",
   "topic": "Topic",
   "pair_programmer": "Pair Programmer",
   "join": "Join",
   "feedback": "Feedback",
   "cancel": "Cancel",
-  "pp_cancel_sucessfull_msg": "PP Cancel Successfully",
+  "pp_cancel_sucessfull_msg": "PP Cancelled Successfully",
   "PP_feeback_placeholder": "Type Here....",
   "PP_feeback_dialog_title": "How was the session?",
   "choose_course_type": "Choose Course Type",
   "dsa": "DSA",
-  "coding": "Coding"
+  "coding": "Coding",
+  "no_upcoming_pp": "No upcoming events",
+  "no_pp_history": "No history available",
+  "no_pp_slots_available": "No PP slotes available",
+  "pp_feedback_submited_msg": "PP feeback submitted successfully.",
+  "PP_booking_form_dialog_title": "Book Pair Programming",
+  "PP_booking_form_placeholder": "Enter Subject, Topic, sort description",
+  "pp_book_successful": "PP book successfully"
 }

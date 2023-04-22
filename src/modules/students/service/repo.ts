@@ -1,30 +1,46 @@
 import httpClient from "@http-client"
-import { StudentBooking, StudentBookingResDto } from "modules/students/dto/student.bookings.dto"
-import { Slot, SlotResDto } from "../dto/pp-slotes.dto"
+import { StudentBooking, } from "modules/students/dto/student.bookings.dto"
+import { Slot } from "../dto/pp-slotes.dto"
+import { ApiResDto } from "modules/common/dto/success.dto"
+import { PaginatedResDto } from "modules/common/dto/paginated.dto"
+import { PPBookingType } from "modules/common/enum/pp-booking-type.enum"
+import { CourseType } from "modules/common/enum/course-type.enum"
+import { BookSlotDto } from "../dto/book-slot.dto"
 
 class StudentRepomImp {
 
-    public async getAllBookings(): Promise<StudentBooking[]> {
-        const { data } = await httpClient.post<StudentBookingResDto>("pp/studentPPData")
+    public async getAllBookings(type: PPBookingType, page: number = 1): Promise<PaginatedResDto<StudentBooking[]>> {
+        const { data } = await httpClient.post<PaginatedResDto<StudentBooking[]>>("pp/studentPPData", {}, {
+            params: {
+                page: page,
+                type: type
+            }
+        })
 
-        return data.data
+        return data
     }
 
     public async cancelPP(ppId: number): Promise<void> {
-        await httpClient.post(`pp/studentPPData/${ppId}`)
+        await httpClient.post(`pp/cancelSlot/${ppId}`)
     }
 
     public async submitFeedback(ppId: number, data: string): Promise<void> {
-        await httpClient.patch(`pp/studentFeedback/${ppId}`, {
-            text: data
+        await httpClient.post(`pp/${ppId}/feedback`, {
+            feedback: data
         })
     }
 
-    public async getSlots(iaId?: number): Promise<Slot[]> {
-        const { data } = await httpClient.post<SlotResDto>(`/pp/dsaSlots`, {
-            iaId: 1
+    public async getSlots(type: CourseType): Promise<Slot[]> {
+        const { data } = await httpClient.post<ApiResDto<Slot[]>>(`/pp/codingOrDsaSlots`, {}, {
+            params: {
+                type: type
+            }
         })
         return data.data
+    }
+
+    public async bookPP(data: BookSlotDto): Promise<void> {
+        await httpClient.post(`/pp/book`, data)
     }
 }
 

@@ -1,4 +1,5 @@
-import { Button, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+import { Env } from "Env/env";
 import LocaleProvider from "modules/locale/components/locale-provider";
 import { SnackbarProvider } from "notistack";
 import AllRoutes from "routes";

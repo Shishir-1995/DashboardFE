@@ -14,7 +14,7 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlN0dWRlbnQiLCJuYW1lIjoiUGl5dXNoIFNoYXJtYSIsImlhdCI6MTY4MTkzMjIwMn0.inACYBxMGCOwwTnzwsmp6U7vJ_Y-EdJycQLZl4Kuel0"
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlN0dWRlbnQiLCJuYW1lIjoiYWxrYSBzaW5oYSIsImNvZGluZ0lhSUQiOjEsImRzYUlhSWQiOjUsImlhdCI6MTY4MjE4ODcwNn0.RiUL1GPwsNDiGKowpzJNU56PwR7Sw4h6JKdVZgafS6M"
   if (token) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (config.headers as any).token = `${token}`;

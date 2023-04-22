@@ -13,7 +13,3 @@ export class StudentBooking {
     studentFeedback: string;
     iaFeedback: string;
 }
-
-export class StudentBookingResDto {
-    data: StudentBooking[]
-}

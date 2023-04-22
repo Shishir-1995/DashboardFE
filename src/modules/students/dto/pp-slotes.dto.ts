@@ -7,6 +7,3 @@ export class Slot {
     course: string
 }
 
-export class SlotResDto {
-    data: Slot[]
-}

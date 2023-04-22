@@ -28,7 +28,8 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
     try {
       await studentRepo.submitFeedback(ppID, feedback.trim());
       setFeedBack("");
-      enqueueSnackbar("pp_cancel_sucessfull_msg", { variant: "success" });
+      enqueueSnackbar(formatMessage("pp_feedback_submited_msg"), { variant: "success" });
+      onClose();
       refetch();
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);

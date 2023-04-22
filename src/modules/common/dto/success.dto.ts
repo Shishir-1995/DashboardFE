@@ -1,4 +1,4 @@
-export class SuccessResDto {
+export interface ApiResDto<T> {
     error?: boolean
-    data?: any
+    data: T
 }

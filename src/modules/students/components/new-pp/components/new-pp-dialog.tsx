@@ -1,34 +1,45 @@
 import { useLocale } from "@locale";
 import { Button, Dialog, DialogContent, Typography } from "@mui/material";
 import { CourseType } from "modules/common/enum/course-type.enum";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Slots from "./slots";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  refetch: () => void;
+  refetch?: () => void;
 }
 
 enum DialogState {
-  chooseCourseType = "choose_course_type",
-  booking_PP = "book_pp",
+  ChooseCourseType = "choose_course_type",
+  BookingPP = "book_pp",
+  Feedback = "feedback",
 }
 
-const NewPpDialog: React.FC<Props> = ({ open, onClose, refetch }) => {
+const NewPpDialog: React.FC<Props> = ({ open, onClose }) => {
   const { formatMessage } = useLocale();
-  const [dialogState, setDialogState] = useState<DialogState>(DialogState.chooseCourseType);
+  const [dialogState, setDialogState] = useState<DialogState>(DialogState.ChooseCourseType);
   const courseTypeRef = useRef<CourseType | undefined>();
+
+  function closeDialog(e: React.SyntheticEvent, reason: string) {
+    if (
+      dialogState !== DialogState.ChooseCourseType &&
+      (reason == "backdropClick" || reason === "escapeKeyDown")
+    )
+      return;
+
+    onClose();
+  }
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={closeDialog}
       fullWidth
-      maxWidth={dialogState == DialogState.chooseCourseType ? "xs" : "sm"}
+      maxWidth={dialogState == DialogState.ChooseCourseType ? "xs" : "sm"}
     >
       <DialogContent className="text-center">
-        {dialogState === DialogState.chooseCourseType ? (
+        {dialogState === DialogState.ChooseCourseType ? (
           <>
             <Typography variant="h2" fontWeight={500}>
               {formatMessage("choose_course_type")}
@@ -40,7 +51,7 @@ const NewPpDialog: React.FC<Props> = ({ open, onClose, refetch }) => {
                 fullWidth
                 onClick={() => {
                   courseTypeRef.current = CourseType.DSA;
-                  setDialogState(DialogState.booking_PP);
+                  setDialogState(DialogState.BookingPP);
                 }}
               >
                 {formatMessage("dsa")}
@@ -50,7 +61,7 @@ const NewPpDialog: React.FC<Props> = ({ open, onClose, refetch }) => {
                 fullWidth
                 onClick={() => {
                   courseTypeRef.current = CourseType.Coding;
-                  setDialogState(DialogState.booking_PP);
+                  setDialogState(DialogState.BookingPP);
                 }}
               >
                 {formatMessage("coding")}
@@ -65,10 +76,12 @@ const NewPpDialog: React.FC<Props> = ({ open, onClose, refetch }) => {
                   {formatMessage(courseTypeRef.current)}
                 </Typography>
 
-                <Slots courseType={courseTypeRef.current} />
+                <Slots courseType={courseTypeRef.current} closeDialog={onClose} />
                 <Button
                   variant="contained"
-                  onClick={() => setDialogState(DialogState.chooseCourseType)}
+                  onClick={() => {
+                    setDialogState(DialogState.ChooseCourseType);
+                  }}
                 >
                   {formatMessage("back")}
                 </Button>

@@ -21,17 +21,17 @@ let theme = createTheme({
         },
         h2: {
             fontSize: 20,
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1.85
         },
         h3: {
             fontSize: 16,
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1.5
         },
         h4: {
             fontSize: 14,
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1.25
         },
 
