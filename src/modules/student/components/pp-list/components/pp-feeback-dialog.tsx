@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { studentRepo } from "modules/students/service/repo";
+import { studentRepo } from "modules/student/service/repo";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 

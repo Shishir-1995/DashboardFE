@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 
 import { CourseType } from "modules/common/enum/course-type.enum";
-import { studentRepo } from "modules/students/service/repo";
+import { studentRepo } from "modules/student/service/repo";
 import { HttpClientUtil } from "@http-client";
 import { useSnackbar } from "notistack";
 

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useLocale } from "@locale";
 import { Typography } from "@mui/material";
-import { StudentBooking } from "modules/students/dto/student.bookings.dto";
+import { StudentBooking } from "modules/student/dto/student.bookings.dto";
 
 const StyleBookingTile = styled("div")(({ theme }) => ({
   padding: "8px 16px",

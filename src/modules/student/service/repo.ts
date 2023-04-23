@@ -1,5 +1,5 @@
 import httpClient from "@http-client"
-import { StudentBooking, } from "modules/students/dto/student.bookings.dto"
+import { StudentBooking, } from "modules/student/dto/student.bookings.dto"
 import { Slot } from "../dto/pp-slotes.dto"
 import { ApiResDto } from "modules/common/dto/success.dto"
 import { PaginatedResDto } from "modules/common/dto/paginated.dto"
