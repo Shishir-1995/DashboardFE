@@ -78,10 +78,11 @@ const NewPpDialog: React.FC<Props> = ({ open, onClose }) => {
 
                 <Slots courseType={courseTypeRef.current} closeDialog={onClose} />
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   onClick={() => {
                     setDialogState(DialogState.ChooseCourseType);
                   }}
+                  className="float-right"
                 >
                   {formatMessage("back")}
                 </Button>

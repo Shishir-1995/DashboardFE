@@ -53,7 +53,7 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
           inputProps={{ minLength: 2 }}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="p-4">
         <Button variant="contained" onClick={handleSubmit}>
           {formatMessage("submit")}
         </Button>

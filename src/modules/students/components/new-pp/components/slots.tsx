@@ -62,26 +62,37 @@ const Slots: React.FC<Props> = ({ courseType, closeDialog }) => {
       {loading ? (
         <PageLoader />
       ) : slotsData ? (
-        Object.keys(slotsData).map((slot) => (
-          <div key={slot} className="flex gap-4 justify-center items-start my-6">
-            <Chip
-              className="rounded-md"
-              color="secondary"
-              label={new Date(slot).toLocaleDateString("en-us", { dateStyle: "medium" })}
-            />
-            <div className="flex gap-4 flex-wrap items-center">
-              {slotsData[slot].map((s) => (
-                <Chip
-                  key={s.id}
-                  label={new Date(s.startTime).toLocaleTimeString("en-us", {
-                    timeZone: "Asia/Kolkata",
-                  })}
-                  onClick={() => handleBookPP(s.id)}
-                />
-              ))}
+        Object.keys(slotsData).length ? (
+          Object.keys(slotsData).map((slot) => (
+            <div key={slot} className="flex gap-4 justify-center items-start my-6">
+              <Chip
+                className="rounded-md"
+                color="secondary"
+                label={new Date(slot).toLocaleDateString("en-us", { dateStyle: "medium" })}
+              />
+              <div className="flex gap-4 flex-wrap items-center">
+                {slotsData[slot].map((s) => (
+                  <Chip
+                    key={s.id}
+                    label={new Date(s.startTime).toLocaleTimeString("en-us", {
+                      timeZone: "Asia/Kolkata",
+                    })}
+                    onClick={() => handleBookPP(s.id)}
+                  />
+                ))}
+              </div>
             </div>
+          ))
+        ) : (
+          <div className="mb-5">
+            <Typography variant="h3" color="error" className="my-3">
+              {formatMessage("no_slot_available")}
+            </Typography>
+            <Button variant="contained" color="secondary">
+              {formatMessage("request_PP")}
+            </Button>
           </div>
-        ))
+        )
       ) : (
         <div>
           <Typography>{formatMessage("no_pp_slots_available")}</Typography>

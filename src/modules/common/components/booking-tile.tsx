@@ -8,7 +8,7 @@ const StyleBookingTile = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  borderBottom: "1px solid gray",
+  borderBottom: "1px solid #eaeaeaca",
   boxShadow: theme.shadow.shadow_10,
   backgroundColor: theme.palette.common.white,
 
