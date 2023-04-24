@@ -6,7 +6,8 @@ export const routes = {
         root: '/student'
     },
     ia: {
-        root: '/ia'
+        root: '/ia',
+        pp: '/ia/pp'
     },
     admin: {
         root: "/admin"

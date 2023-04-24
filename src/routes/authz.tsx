@@ -1,5 +1,6 @@
 import { UserRole } from "modules/user/enum/user-role";
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactElement;
@@ -7,13 +8,13 @@ interface Props {
 }
 
 const Authz: React.FC<Props> = ({ children, privileges }) => {
-  const activeUserRole = UserRole.Student; //useAppSelector(AuthSelector.role);
+  const activeUserRole = UserRole.IA; //useAppSelector(AuthSelector.role);
 
   if (privileges?.includes(activeUserRole)) {
     return children;
   }
 
-  return null;
+  return <Navigate to="/" />;
 };
 
 export default Authz;

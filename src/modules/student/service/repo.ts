@@ -9,8 +9,8 @@ import { BookSlotDto } from "../dto/book-slot.dto"
 
 class StudentRepomImp {
 
-    public async getAllBookings(type: PPBookingType, page: number = 1): Promise<PaginatedResDto<StudentBooking[]>> {
-        const { data } = await httpClient.post<PaginatedResDto<StudentBooking[]>>("pp/studentPPData", {}, {
+    public async getAllBookings(type: PPBookingType, page: number = 1): Promise<PaginatedResDto<StudentBooking>> {
+        const { data } = await httpClient.post<PaginatedResDto<StudentBooking>>("pp/studentPPData", {}, {
             params: {
                 page: page,
                 type: type

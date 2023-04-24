@@ -5,7 +5,8 @@ import Authz from "./authz";
 import { UserRole } from "modules/user/enum/user-role";
 import { routes } from "./routes";
 import AppWrapper from "modules/app/app-wrapper";
-import StudentPage from "modules/students";
+import StudentPage from "modules/student";
+import IARoutes from "modules/IA/ia.routes";
 
 const ProtectedRoutes = () => {
   return (
@@ -17,6 +18,14 @@ const ProtectedRoutes = () => {
             element={
               <Authz privileges={[UserRole.Student]}>
                 <StudentPage />
+              </Authz>
+            }
+          />
+          <Route
+            path="ia/*"
+            element={
+              <Authz privileges={[UserRole.IA]}>
+                <IARoutes />
               </Authz>
             }
           />

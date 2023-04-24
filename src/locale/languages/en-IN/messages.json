@@ -20,5 +20,10 @@
   "PP_booking_form_dialog_title": "Book Pair Programming",
   "PP_booking_form_placeholder": "Enter Subject, Topic, sort description",
   "pp_book_successful": "PP book successfully",
-  "no_slot_available": "No slot available"
+  "no_slot_available": "No slot available",
+  "student_code": "Student Code",
+  "student_name": "Student Name",
+  "coding_course": "Coding Course",
+  "dsa_course": "DSA Course",
+  "pair_programming": "Pair Programming"
 }
