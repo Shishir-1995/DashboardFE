@@ -5,6 +5,7 @@ import { PPTab } from "modules/common/enum/pp-tab.enum";
 import { useState } from "react";
 import UpcommingBookings from "./components/upcoming-bookings";
 import HistoryBookings from "./components/history-bookings";
+import AdhocSessions from "./components/adhoc-sessions";
 
 interface Props {}
 
@@ -21,6 +22,7 @@ const PPList: React.FC<Props> = ({}) => {
       <Tabs className="border-b" value={tabValue} onChange={handleTabChange} variant="fullWidth">
         <Tab value={PPTab.UpcommingEvents} label={formatMessage(PPTab.UpcommingEvents)} />
         <Tab value={PPTab.History} label={formatMessage(PPTab.History)} />
+        <Tab value={PPTab.AdhocSessions} label={formatMessage(PPTab.AdhocSessions)} />
       </Tabs>
       <Box>
         <TabPanel value={tabValue} index={PPTab.UpcommingEvents}>
@@ -28,6 +30,9 @@ const PPList: React.FC<Props> = ({}) => {
         </TabPanel>
         <TabPanel value={tabValue} index={PPTab.History}>
           <HistoryBookings />
+        </TabPanel>
+        <TabPanel value={tabValue} index={PPTab.AdhocSessions}>
+          <AdhocSessions/>
         </TabPanel>
       </Box>
     </Card>

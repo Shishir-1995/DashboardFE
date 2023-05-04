@@ -8,6 +8,7 @@ import { studentRepo } from "modules/student/service/repo";
 import { useSnackbar } from "notistack";
 import { useState, useEffect, useRef } from "react";
 import BookingDialog from "./booking-dialog";
+import AdhocPPDialog from "./adhoc-pp-dialog";
 
 interface Props {
   courseType: CourseType;
@@ -19,6 +20,7 @@ const Slots: React.FC<Props> = ({ courseType, closeDialog }) => {
   const [slots, setSlots] = useState<Slot[]>([]);
   const [bookingDialog, setBookingDialog] = useState(false);
   const slotIdRef = useRef<{ slotId: number; courseType: CourseType }>();
+  const [adhocRequestDialog, setAdhocRequestDialog] = useState<boolean>(false);
 
   const { formatMessage } = useLocale();
   const { enqueueSnackbar } = useSnackbar();
@@ -88,9 +90,14 @@ const Slots: React.FC<Props> = ({ courseType, closeDialog }) => {
             <Typography variant="h3" color="error" className="my-3">
               {formatMessage("no_slot_available")}
             </Typography>
-            <Button variant="contained" color="secondary">
-              {formatMessage("request_PP")}
+            <Button variant="contained" color="secondary" 
+             onClick={()=>setAdhocRequestDialog(true)} >
+              {formatMessage("REQUEST_PP")}
             </Button>
+            <AdhocPPDialog open={adhocRequestDialog} 
+             onClose={()=>setAdhocRequestDialog(false)}
+             courseType={courseType}
+             />
           </div>
         )
       ) : (
