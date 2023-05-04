@@ -16,9 +16,9 @@ const ProtectedRoutes = () => {
           <Route
             path="student/*"
             element={
-              <Authz privileges={[UserRole.Student]}>
+              // <Authz privileges={[UserRole.Student]}>
                 <StudentPage />
-              </Authz>
+              // </Authz>
             }
           />
           <Route

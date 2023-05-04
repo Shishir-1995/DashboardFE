@@ -1,11 +1,12 @@
 import httpClient from "@http-client"
-import { StudentBooking, } from "modules/student/dto/student.bookings.dto"
+import { StudentAdhocBooking, StudentBooking, } from "modules/student/dto/student.bookings.dto"
 import { Slot } from "../dto/pp-slotes.dto"
 import { ApiResDto } from "modules/common/dto/success.dto"
 import { PaginatedResDto } from "modules/common/dto/paginated.dto"
 import { PPBookingType } from "modules/common/enum/pp-booking-type.enum"
 import { CourseType } from "modules/common/enum/course-type.enum"
 import { BookSlotDto } from "../dto/book-slot.dto"
+import { ReqAdhocDto } from "../dto/adhoc-slot.dto"
 
 class StudentRepomImp {
 
@@ -42,6 +43,24 @@ class StudentRepomImp {
     public async bookPP(data: BookSlotDto): Promise<void> {
         await httpClient.post(`/pp/book`, data)
     }
+
+    public async requestAdhoc(data:ReqAdhocDto):Promise<void>{
+
+        await httpClient.post(`/pp/adhoc`,data);
+
+    }
+
+    public async getAdhocSessions(page: number): Promise<PaginatedResDto<StudentAdhocBooking>> {
+
+        const { data } = await httpClient.post<PaginatedResDto<StudentAdhocBooking>>(`/pp/getStAdhocInfo`,{}, {
+            params: {
+                page: page,
+            }
+        })
+        return data;
+
+    }
+    
 }
 
 export const studentRepo = new StudentRepomImp()

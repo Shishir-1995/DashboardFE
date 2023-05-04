@@ -25,5 +25,11 @@
   "student_name": "Student Name",
   "coding_course": "Coding Course",
   "dsa_course": "DSA Course",
-  "pair_programming": "Pair Programming"
+  "pair_programming": "Pair Programming",
+  "REQUEST_PP":"Request PP",
+  "Adhoc_PP_booking_form_dialog_title": "Request Adhoc Pair Programming",
+  "Adhoc_PP_booking_form_placeholder": "Enter Subject, Topic, sort description for adhoc session",
+  "Requested": "Requested",
+  "Approved":"Approved",
+  "Feedback":"Feedback"
 }

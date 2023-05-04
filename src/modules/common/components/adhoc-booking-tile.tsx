@@ -19,11 +19,11 @@ const StyleBookingTile = styled("div")(({ theme }) => ({
 }));
 
 interface Props {
-  booking: StudentAdhocBooking|StudentBooking;
+  booking: StudentAdhocBooking;
   children: React.ReactNode;
 }
 
-const BookingTile: React.FC<Props> = ({ booking, children }) => {
+const AdhocBookingTile: React.FC<Props> = ({ booking, children }) => {
   const { formatMessage } = useLocale();
   
   return (
@@ -58,4 +58,4 @@ const BookingTile: React.FC<Props> = ({ booking, children }) => {
   );
 };
 
-export default BookingTile;
+export default AdhocBookingTile;
