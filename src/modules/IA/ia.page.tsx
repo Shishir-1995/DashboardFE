@@ -4,6 +4,7 @@ import DataGridPaginated from "modules/common/components/paginated-data-grid";
 import { useGetIAStudents } from "./service/hook";
 import { GridColDef } from "@mui/x-data-grid";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 function useColumns(): GridColDef[] {
   const { formatMessage } = useLocale();
@@ -26,6 +27,7 @@ function useColumns(): GridColDef[] {
 const IAPage = () => {
   const { formatMessage } = useLocale();
   const { loading, refetch, data } = useGetIAStudents();
+  const navigate = useNavigate()
 
   const studentList = useMemo(() => {
     return {
@@ -41,7 +43,7 @@ const IAPage = () => {
   return (
     <div>
       <Box className="flex justify-between">
-        <Button color="primary" variant="contained" size="large">
+        <Button color="primary" variant="contained" size="large" onClick={()=>navigate("/ia/pp")}>
           {formatMessage("pair_programming")}
         </Button>
         <Button color="error" variant="contained" size="large">
