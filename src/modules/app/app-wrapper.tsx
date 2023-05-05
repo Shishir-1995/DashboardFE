@@ -17,11 +17,12 @@ interface props {
 }
 
 const AppWrapper: React.FC<props> = ({ children }) => {
-
   const theme = useTheme();
-  const [userName, setUserName] = useState<string | boolean>(getCookie("user_name"));
-  const { formatMessage } = useLocale();
-  const navigate = useNavigate();
+  const [userName, setUserName] = useState<string | undefined>(getCookie("userName"));
+
+  useEffect(() => {
+    getName(userName ?? "user");
+  }, []);
 
   function stringAvatar(name: string): string {
     return `${name.split(" ")[0][0].toUpperCase()}${
@@ -29,22 +30,13 @@ const AppWrapper: React.FC<props> = ({ children }) => {
     }`;
   }
 
-  const getName = (data: string | boolean): void => {
-    if (typeof data === "boolean") {
-      return;
-    }
-
+  const getName = (data: string): void => {
     let temp_userName = data;
     let firstName = temp_userName.split(" ")[0];
-    const capitalizedFirstName =
-      firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
     setUserName(capitalizedFirstName);
   };
-
-  useEffect(() => {
-    getName(userName);
-  }, []);
 
   return (
     <div>
@@ -71,7 +63,7 @@ const AppWrapper: React.FC<props> = ({ children }) => {
               {formatMessage("Apply_Leave")}
             </Button>
             <div className="flex items-center gap-2">
-              <Typography color="black">{userName}</Typography>
+              <Typography color="black">Hello, {userName}</Typography>
               <IconButton size="small" color="primary">
                 <Avatar className="bg-gray-500">
                   {typeof userName === "string" && stringAvatar(userName)}

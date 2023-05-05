@@ -1,6 +1,7 @@
 import { UserRole } from "modules/user/enum/user-role";
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { getCookie } from "utils/cookies/cookies";
 
 interface Props {
   children: React.ReactElement;
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const Authz: React.FC<Props> = ({ children, privileges }) => {
-  const activeUserRole = UserRole.IA; //useAppSelector(AuthSelector.role);
+  const activeUserRole = getCookie("role") as UserRole;
 
   if (privileges?.includes(activeUserRole)) {
     return children;
