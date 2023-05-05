@@ -4,17 +4,25 @@ import { Chip } from "@mui/material";
 import { SlotsForIa } from "modules/IA/dto/ia.pp-slots.dto";
 import { IARepo } from "modules/IA/service/repo";
 import PageLoader from "modules/common/components/page-loader";
-import { CourseType } from "modules/common/enum/course-type.enum";
 import { useSnackbar } from "notistack";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import SlotChip from "./slot-chip";
+import SlotDeleteDialog from "./slot-delete-dialog";
+import AddSlotDialogIa from "./add-slot-dialog-ia";
+import dayjs, { Dayjs } from 'dayjs';
+
 
 interface props {
   toggleState : boolean
 }
 
 const IASlots: React.FC<props> = ({toggleState}) => {
+
   const [loading, setLoading] = useState(false);
   const [slots, setSlots] = useState<SlotsForIa[]>([]);
+  const [slotDeleteDialogState, setSlotDeleteDialogState] = useState<boolean>(false);
+  const [deleteSlotId, setSlotDeleteId] = useState<number>(0);
+  const [addSlotDialogestate, setAddSlotDialogestate] = useState<boolean>(false);
 
   const { formatMessage } = useLocale();
   const { enqueueSnackbar } = useSnackbar();
@@ -48,6 +56,25 @@ const IASlots: React.FC<props> = ({toggleState}) => {
     return result;
   }, {});
 
+  const handleDelete=(id:number):void=>{
+
+
+    console.log(id);
+    setSlotDeleteId(id);
+    setSlotDeleteDialogState(true);
+
+  }
+
+  const handleOpenSlot=():void=>{
+
+
+
+
+
+  }
+
+
+
 
   return (
     <div className="flex flex-col gap-4" style={{ padding : "10px" }} >  
@@ -66,23 +93,35 @@ const IASlots: React.FC<props> = ({toggleState}) => {
             <div className="flex gap-4 flex-wrap items-center">
               {slotsData[slot].map((s,i) => (
                 <>
-                  <Chip
-                    key={s.id}
-                    color={ s.isBooked ? "success" : "default" }
-                    label={new Date(s.startTime).toLocaleTimeString("en-us", {
-                      timeZone: "Asia/Kolkata",
-                    })}
+                  <SlotChip
+                      key={s.id}
+                      isBooked={s.isBooked}
+                      slotTime={s.startTime} 
+                      handleDelete={()=>handleDelete(s.id)}
+                  />
+                  <SlotDeleteDialog 
+                    open={slotDeleteDialogState}
+                    onClose={()=>setSlotDeleteDialogState(false)}
+                    id={deleteSlotId}
+                    getSlots={fetchData}
                   />
                   { i+1 === slotsData[slot].length 
-                  ?
-                  <Chip
-                    key={s.id}
-                    color={ "warning" }
-                    label={"+"}
+                    &&
+                    <Chip
+                        key={s.id}
+                        color={ "warning" }
+                        label={"+"}
+                        onClick={()=>setAddSlotDialogestate(true)}
+                    />
+                  } 
+                  <AddSlotDialogIa 
+                   open={addSlotDialogestate}
+                   onClose={()=>setAddSlotDialogestate(false)}
+                   getSlots={fetchData}
+                   date={slot}
                   />
-                  :
-                  ""
-                   }
+                  
+                   
                 </>
               ))}
             </div>

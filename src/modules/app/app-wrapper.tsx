@@ -1,7 +1,17 @@
 import { useTheme } from "@emotion/react";
-import { AppBar, Avatar, Container, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  Container,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { getCookie } from "utils/cookies/cookies";
 import { useState, useEffect } from "react";
+import { useLocale } from "@locale";
+import { useNavigate } from "react-router-dom";
 interface props {
   children: React.ReactNode;
 }
@@ -32,11 +42,26 @@ const AppWrapper: React.FC<props> = ({ children }) => {
     <div>
       <AppBar
         position="static"
-        sx={{ boxShadow: theme.shadow.shadow_5, bgcolor: theme.palette.common.white }}
+        sx={{
+          boxShadow: theme.shadow.shadow_5,
+          bgcolor: theme.palette.common.white,
+        }}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters className="flex justify-between">
-            <img src="https://masaischool.com/img/navbar/logo.svg" loading="lazy" />
+            <img
+              src="https://masaischool.com/img/navbar/logo.svg"
+              loading="lazy"
+            />
+            <Button variant="contained" color="secondary" onClick={()=>navigate("/ia")}>
+              {formatMessage("Student_Details")}
+            </Button>
+            <Button variant="contained" color="secondary" onClick={()=>navigate("/ia/pp")}>
+              {formatMessage("PPdashboard")}
+            </Button>
+            <Button variant="contained" color="secondary">
+              {formatMessage("Apply_Leave")}
+            </Button>
             <div className="flex items-center gap-2">
               <Typography color="black">Hello, {userName}</Typography>
               <IconButton size="small" color="primary">

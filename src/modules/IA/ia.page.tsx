@@ -42,14 +42,14 @@ const IAPage = () => {
 
   return (
     <div>
-      <Box className="flex justify-between">
+      {/* <Box className="flex justify-between">
         <Button color="primary" variant="contained" size="large" onClick={()=>navigate("/ia/pp")}>
           {formatMessage("pair_programming")}
         </Button>
         <Button color="error" variant="contained" size="large">
           {formatMessage("leave")}
         </Button>
-      </Box>
+      </Box> */}
 
       <Card className="my-8">
         <DataGridPaginated
