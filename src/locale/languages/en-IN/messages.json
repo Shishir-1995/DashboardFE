@@ -1,4 +1,5 @@
 {
+
   "book_pp": "Book PP",
   "upcomming_events": "Upcoming events",
   "history": "history",
@@ -31,5 +32,17 @@
   "Adhoc_PP_booking_form_placeholder": "Enter Subject, Topic, sort description for adhoc session",
   "Requested": "Requested",
   "Approved":"Approved",
-  "Feedback":"Feedback"
+  "Feedback":"Feedback",
+  "Student_Details":"Student Details",
+  "PPdashboard":"PP Dashboard",
+  "Apply_Leave":"Apply Leave",
+  "Delete_Slot":"Delete Slot",
+  "Delete_Confirmation":"Are you sure you want to delete?",
+  "PP_Slot_Delete_Success":"PP Slot Deleted Successfully",
+  "PP_Slot_Delete_Error":"PP Slot Delete Failed",
+  "Add_Slot":"Add Slot",
+  "ADD_Slots":"Add Extra Slots",
+  "PP_Slot_Add_Success":"PP Slot Added Successfully"
+
+
 }
