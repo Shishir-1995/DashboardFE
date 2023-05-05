@@ -61,6 +61,12 @@ class StudentRepomImp {
 
     }
     
+    public async addFeedbackToAdhocSession( adhocId : number, feedback : string ):Promise<ApiResDto<string>>{
+        const { data } = await httpClient.post<ApiResDto<string>>(`/pp/adhoc/${adhocId}/feedback`, {
+          feedback : feedback
+        })
+        return data
+      }
     
 
 }

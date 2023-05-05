@@ -49,7 +49,7 @@ const IaAdhocSessions = () => {
 
   const addFeedback = async( adhocId : number, feedback : string ) => {
     try{
-        await IARepo.addFeedbackToAdhocSession(adhocId, "Session was good")
+        await IARepo.addFeedbackToAdhocSession(adhocId, feedback)
         enqueueSnackbar("Feedback Updated", { variant : "info" })
         fetchData()
     }
