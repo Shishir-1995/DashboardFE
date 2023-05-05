@@ -61,6 +61,8 @@ class StudentRepomImp {
 
     }
     
+    
+
 }
 
 export const studentRepo = new StudentRepomImp()
