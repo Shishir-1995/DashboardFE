@@ -26,9 +26,9 @@ function DataGridPaginated<T extends GridRowDef>(props: DataGridPaginatedProps<T
         hideFooter={false}
         hideFooterPagination={false}
         rows={props.data?.items || []}
-        rowCount={props.data?.totalPages}
+        rowCount={props.data?.total}
         pageSize={10}
-        onPageChange={(page) => props.refetch({ page })}
+        onPageChange={(page) => props.refetch({ page: page + 1 })}
         pagination
       />
     </Box>

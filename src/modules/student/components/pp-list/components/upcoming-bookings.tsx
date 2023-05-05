@@ -37,7 +37,7 @@ const UpcommingBookings = () => {
   async function fetchData() {
     try {
       const res = await studentRepo.getAllBookings(PPBookingType.Upcoming, page);
-      setTotalPage(res.totalPages);
+      setTotalPage(res.totalPages!);
       setUpcommingBooking(res.items);
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);

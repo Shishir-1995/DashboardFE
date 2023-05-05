@@ -7,39 +7,26 @@ interface props {
 }
 
 const AppWrapper: React.FC<props> = ({ children }) => {
-
   const theme = useTheme();
-  const [userName,setUserName] = useState<string|boolean>(getCookie("user_name"));
-  
-  function stringAvatar(name: string):string {
+  const [userName, setUserName] = useState<string | undefined>(getCookie("userName"));
+
+  useEffect(() => {
+    getName(userName ?? "user");
+  }, []);
+
+  function stringAvatar(name: string): string {
     return `${name.split(" ")[0][0].toUpperCase()}${
       name.split(" ").length > 1 ? name.split(" ")[1][0].toUpperCase() : ""
     }`;
   }
 
-  const getName=(data:string | boolean):void=>{
+  const getName = (data: string): void => {
+    let temp_userName = data;
+    let firstName = temp_userName.split(" ")[0];
+    const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
-      
-
-      if(typeof(data)==="boolean"){
-
-        return;
-
-      }
-
-      let temp_userName = data;
-      let firstName=temp_userName.split(" ")[0];
-      const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-
-      setUserName(capitalizedFirstName);
-
-  }
-
-  useEffect(()=>{
-
-    getName(userName);
-    
-  },[])
+    setUserName(capitalizedFirstName);
+  };
 
   return (
     <div>
@@ -51,9 +38,11 @@ const AppWrapper: React.FC<props> = ({ children }) => {
           <Toolbar disableGutters className="flex justify-between">
             <img src="https://masaischool.com/img/navbar/logo.svg" loading="lazy" />
             <div className="flex items-center gap-2">
-              <Typography color="black">{ userName }</Typography>
+              <Typography color="black">Hello, {userName}</Typography>
               <IconButton size="small" color="primary">
-                <Avatar className="bg-gray-500">{ typeof(userName)==="string" && stringAvatar(userName)}</Avatar>
+                <Avatar className="bg-gray-500">
+                  {typeof userName === "string" && stringAvatar(userName)}
+                </Avatar>
               </IconButton>
             </div>
           </Toolbar>
