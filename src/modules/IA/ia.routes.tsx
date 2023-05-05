@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import IAPage from "./ia.page";
+import Dashboard from "./components/pp-dashboard/Dashboard";
 
 const IARoutes = () => {
   return (
     <Routes>
       <Route index Component={IAPage} />
-      <Route path="pp" element={<h1>Hom2</h1>} />
+      <Route path="pp" element={<Dashboard/>} />
     </Routes>
   );
 };
