@@ -1,45 +1,18 @@
+export const setCookie = (name: string, value: string) => {
+    document.cookie = `${name}=${value}`;
+};
 
+export const getCookie = (name: string) => {
+    const myCookie = document.cookie
+        .split(";")
+        .find((cookie) => cookie.trim().startsWith(`${name}=`));
 
-export const setCookie=(variableName:string,value:string):boolean=>{
-
-
-    try{
-
-      document.cookie=`${variableName}=${value}`;
-
-      return true;
-
-    }catch(err){
-
-       return false;
-
+    if (myCookie) {
+        const cookieValue = myCookie.split("=")[1];
+        return cookieValue;
     }
+};
 
-
-}
-
-export const getCookie=(variableName:string):string|boolean=>{
-
-    try{
-
-        const myCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith(`${variableName}=`));
-
-        if(myCookie){
-
-            const cookieValue = myCookie.split("=")[1];
-
-            return cookieValue;
-
-        }
-        
-        return false;
-
-    }catch(err){
-
-        return false;
-
-
-    }
-
-
-}
+export const eraseCookie = (name: string) => {
+    document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+};

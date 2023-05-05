@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PageLoader from "modules/common/components/page-loader";
+import SignIn from "modules/auth/component/login-form";
 
 const ProtectedRoutes = lazy(() => import("./protected.routes"));
 
@@ -15,7 +16,7 @@ const RoutesWrapper = styled.div(({ theme }) => ({
 const routes = createBrowserRouter([
   {
     path: "auth/*",
-    element: <>Auth</>,
+    element: <SignIn />,
   },
   {
     path: "*",

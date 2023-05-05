@@ -79,6 +79,21 @@ class IARepoImp {
     return data
   }
 
+  public async deletePpSlot(slotId: number):Promise<void>{
+
+
+      await httpClient.post (`/pp/deleteSlot/${slotId}`, {})
+
+
+  } 
+
+  public async createSlot(slotStartTime:string):Promise<void>{
+
+    await httpClient.post (`/pp/createSlot`,{slotStartTime:slotStartTime})
+
+
+  }
+
 }
 
-export const IARepo = new IARepoImp()
+export const IARepo = new IARepoImp();

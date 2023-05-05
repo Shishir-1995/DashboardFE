@@ -10,10 +10,10 @@ import Pagination from "./pagination";
 import { IARepo } from "modules/IA/service/repo";
 
 interface props {
-  handleToggle : () => void
+  handleToggle: () => void;
 }
 
-const UpcommingBookings : React.FC<props> = ({ handleToggle }) => {
+const UpcommingBookings: React.FC<props> = ({ handleToggle }) => {
   const [upcommingBooking, setUpcommingBooking] = useState<StudentBooking[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -41,7 +41,7 @@ const UpcommingBookings : React.FC<props> = ({ handleToggle }) => {
   async function fetchData() {
     try {
       const res = await IARepo.getPPDataInfo(PPBookingType.Upcoming, page);
-      setTotalPage(res.totalPages);
+      setTotalPage(res.totalPages!);
       setUpcommingBooking(res.items);
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);
@@ -62,7 +62,7 @@ const UpcommingBookings : React.FC<props> = ({ handleToggle }) => {
       await IARepo.cancelPP(ppId);
       enqueueSnackbar(formatMessage("pp_cancel_sucessfull_msg"), { variant: "success" });
       fetchData();
-      handleToggle()
+      handleToggle();
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);
       enqueueSnackbar(msg, { variant: "error" });

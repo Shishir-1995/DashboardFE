@@ -11,7 +11,7 @@ import Pagination from "./pagination";
 import PPFeebackDialog from "./pp-feeback-dialog";
 import { IARepo } from "modules/IA/service/repo";
 
-const HistoryBookings : React.FC = () => {
+const HistoryBookings: React.FC = () => {
   const [historyBooking, sethistroyBooking] = useState<StudentBooking[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -48,7 +48,7 @@ const HistoryBookings : React.FC = () => {
   async function fetchData() {
     try {
       const res = await IARepo.getPPDataInfo(PPBookingType.History, page);
-      setTotalPage(res.totalPages);
+      setTotalPage(res.totalPages!);
       sethistroyBooking(res.items);
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);
