@@ -27,7 +27,7 @@ function useColumns(): GridColDef[] {
 const IAPage = () => {
   const { formatMessage } = useLocale();
   const { loading, refetch, data } = useGetIAStudents();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const studentList = useMemo(() => {
     return {
@@ -42,15 +42,6 @@ const IAPage = () => {
 
   return (
     <div>
-      {/* <Box className="flex justify-between">
-        <Button color="primary" variant="contained" size="large" onClick={()=>navigate("/ia/pp")}>
-          {formatMessage("pair_programming")}
-        </Button>
-        <Button color="error" variant="contained" size="large">
-          {formatMessage("leave")}
-        </Button>
-      </Box> */}
-
       <Card className="my-8">
         <DataGridPaginated
           loading={loading}

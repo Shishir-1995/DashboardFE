@@ -11,18 +11,14 @@ import {
 import { IARepo } from "modules/IA/service/repo";
 import { enqueueSnackbar } from "notistack";
 
-import { useState } from "react";
 interface props {
-  
-  id:number;
+  id: number;
   open: boolean;
   onClose: () => void;
-  getSlots: ()=>Promise<void>;
-  
+  getSlots: () => Promise<void>;
 }
 
-const SlotDeleteDialog: React.FC<props> = ({id, open, onClose, getSlots }) => {
- 
+const SlotDeleteDialog: React.FC<props> = ({ id, open, onClose, getSlots }) => {
   const { formatMessage } = useLocale();
 
   function closeDialog(e: React.SyntheticEvent, reason: string) {
@@ -31,25 +27,18 @@ const SlotDeleteDialog: React.FC<props> = ({id, open, onClose, getSlots }) => {
     onClose();
   }
 
-  const handleDeleteSlot = async():Promise<void> => {
+  const handleDeleteSlot = async (): Promise<void> => {
+    console.log(id);
 
-        console.log(id);
-
-        try {
-
-            await IARepo.deletePpSlot(id);
-            enqueueSnackbar(formatMessage("PP_Slot_Delete_Success"), {
-              variant: "success",
-            });
-            // window.location.reload();
-            getSlots();
-            onClose();
-
-          } catch (err) {
-            const msg = HttpClientUtil.getErrorMsgKey(err);
-            enqueueSnackbar(msg, { variant: "error" });
-          }
-
+    try {
+      await IARepo.deletePpSlot(id);
+      enqueueSnackbar(formatMessage("PP_Slot_Delete_Success"), { variant: "success" });
+      getSlots();
+      onClose();
+    } catch (err) {
+      const msg = HttpClientUtil.getErrorMsgKey(err);
+      enqueueSnackbar(msg, { variant: "error" });
+    }
   };
 
   return (
@@ -59,9 +48,7 @@ const SlotDeleteDialog: React.FC<props> = ({id, open, onClose, getSlots }) => {
           {formatMessage("Adhoc_PP_booking_form_dialog_title")}
         </DialogTitle>
         <DialogContent>
-          <Typography color="black">
-            {formatMessage("Delete_Confirmation")}
-          </Typography>
+          <Typography>{formatMessage("Delete_Confirmation")}</Typography>
         </DialogContent>
         <DialogActions className="mx-4 mb-3">
           <Button variant="contained" onClick={handleDeleteSlot}>

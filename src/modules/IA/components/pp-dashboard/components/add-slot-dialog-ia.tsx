@@ -13,8 +13,8 @@ import { enqueueSnackbar } from "notistack";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface props {
   open: boolean;
@@ -23,12 +23,7 @@ interface props {
   getSlots: () => Promise<void>;
 }
 
-const AddSlotDialogIa: React.FC<props> = ({
-  open,
-  date,
-  onClose,
-  getSlots,
-}) => {
+const AddSlotDialogIa: React.FC<props> = ({ open, date, onClose, getSlots }) => {
   const [slotTime, setSlotTime] = useState<Dayjs | null>(dayjs());
   const { formatMessage } = useLocale();
 
@@ -39,30 +34,25 @@ const AddSlotDialogIa: React.FC<props> = ({
   }
 
   const handleAddSlot = async (): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    
-    console.log(new Date(`${date} ${slotTime?.$d.trim().split(" ")[5]}`))
-    // try {
-    //   if (typeof slotTime?.toISOString() === "string") {
-    //     await IARepo.createSlot(slotTime.toISOString());
-    //     enqueueSnackbar(formatMessage("PP_Slot_Add_Success"), {
-    //       variant: "success",
-    //     });
+    // @ts-ignore
+    const newBookingSlot = new Date(`${date} ${dayjs(slotTime).format("HH:mm")}`).toISOString();
 
-    //     getSlots();
-    //     onClose();
-    //   }
-    // } catch (err) {
-    //   const msg = HttpClientUtil.getErrorMsgKey(err);
-    //   enqueueSnackbar(msg, { variant: "error" });
-    // }
+    try {
+      await IARepo.createSlot(newBookingSlot);
+      enqueueSnackbar(formatMessage("PP_Slot_Add_Success"), { variant: "success" });
+      getSlots();
+      onClose();
+    } catch (err) {
+      const msg = HttpClientUtil.getErrorMsgKey(err);
+      enqueueSnackbar(msg, { variant: "error" });
+    }
   };
 
   return (
     <>
       <Dialog open={open} onClose={closeDialog} fullWidth maxWidth={"sm"}>
         <DialogTitle variant="h2" color="primary">
-        {formatMessage("ADD_Slots")}
+          {formatMessage("ADD_Slots")}
         </DialogTitle>
         <DialogContent>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -74,7 +64,7 @@ const AddSlotDialogIa: React.FC<props> = ({
           </LocalizationProvider>
         </DialogContent>
         <DialogActions className="mx-4 mb-3">
-          <Button variant="contained" onClick={()=>handleAddSlot()}>
+          <Button variant="contained" onClick={() => handleAddSlot()}>
             {formatMessage("Add_Slot")}
           </Button>
           <Button variant="outlined" onClick={onClose}>
