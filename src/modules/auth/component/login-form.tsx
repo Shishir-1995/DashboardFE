@@ -12,6 +12,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { AuthRepo } from "../service/repo";
 import { useNavigate } from "react-router-dom";
+import { HttpClientUtil } from "@http-client";
+import { enqueueSnackbar } from "notistack";
 
 function Copyright(props: any) {
   return (
@@ -41,7 +43,10 @@ export default function SignIn() {
     try {
       await AuthRepo.login({ email, password });
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      const msg = HttpClientUtil.getErrorMsgKey(error);
+      enqueueSnackbar(msg, { variant: "error" });
+    }
   };
 
   return (

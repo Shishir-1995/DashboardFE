@@ -29,7 +29,7 @@ const AddSlotDialogIa: React.FC<props> = ({
   onClose,
   getSlots,
 }) => {
-  const [slotTime, setSlotTime] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
+  const [slotTime, setSlotTime] = useState<Dayjs | null>(dayjs());
   const { formatMessage } = useLocale();
 
   function closeDialog(e: React.SyntheticEvent, reason: string) {
@@ -39,21 +39,23 @@ const AddSlotDialogIa: React.FC<props> = ({
   }
 
   const handleAddSlot = async (): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     
-    try {
-      if (typeof slotTime?.toISOString() === "string") {
-        await IARepo.createSlot(slotTime.toISOString());
-        enqueueSnackbar(formatMessage("PP_Slot_Add_Success"), {
-          variant: "success",
-        });
+    console.log(new Date(`${date} ${slotTime?.$d.trim().split(" ")[5]}`))
+    // try {
+    //   if (typeof slotTime?.toISOString() === "string") {
+    //     await IARepo.createSlot(slotTime.toISOString());
+    //     enqueueSnackbar(formatMessage("PP_Slot_Add_Success"), {
+    //       variant: "success",
+    //     });
 
-        getSlots();
-        onClose();
-      }
-    } catch (err) {
-      const msg = HttpClientUtil.getErrorMsgKey(err);
-      enqueueSnackbar(msg, { variant: "error" });
-    }
+    //     getSlots();
+    //     onClose();
+    //   }
+    // } catch (err) {
+    //   const msg = HttpClientUtil.getErrorMsgKey(err);
+    //   enqueueSnackbar(msg, { variant: "error" });
+    // }
   };
 
   return (

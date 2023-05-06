@@ -9,7 +9,6 @@ import { ApiResDto } from "modules/common/dto/success.dto";
 class IARepoImp {
 
   public async getStudentList(paginateOptions?: PaginatedQueryDto): Promise<PaginatedResDto<StudentDto>> {
-
     const { data } = await httpClient.post<PaginatedResDto<StudentDto>>("/pp/getStudentInfo", {
       params: paginateOptions
     })

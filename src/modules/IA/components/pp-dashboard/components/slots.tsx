@@ -10,7 +10,7 @@ import SlotChip from "./slot-chip";
 import SlotDeleteDialog from "./slot-delete-dialog";
 import AddSlotDialogIa from "./add-slot-dialog-ia";
 import dayjs, { Dayjs } from 'dayjs';
-
+import { useRef } from 'react'
 
 interface props {
   toggleState : boolean
@@ -23,6 +23,7 @@ const IASlots: React.FC<props> = ({toggleState}) => {
   const [slotDeleteDialogState, setSlotDeleteDialogState] = useState<boolean>(false);
   const [deleteSlotId, setSlotDeleteId] = useState<number>(0);
   const [addSlotDialogestate, setAddSlotDialogestate] = useState<boolean>(false);
+  const dateRef = useRef<string>("")
 
   const { formatMessage } = useLocale();
   const { enqueueSnackbar } = useSnackbar();
@@ -111,14 +112,17 @@ const IASlots: React.FC<props> = ({toggleState}) => {
                         key={s.id}
                         color={ "warning" }
                         label={"+"}
-                        onClick={()=>setAddSlotDialogestate(true)}
+                        onClick={()=>{
+                          setAddSlotDialogestate(true)
+                          dateRef.current = slot
+                        }}
                     />
                   } 
                   <AddSlotDialogIa 
                    open={addSlotDialogestate}
                    onClose={()=>setAddSlotDialogestate(false)}
                    getSlots={fetchData}
-                   date={slot}
+                   date={dateRef.current}
                   />
                   
                    
