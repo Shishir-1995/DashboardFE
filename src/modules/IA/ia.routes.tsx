@@ -4,6 +4,8 @@ import Dashboard from "./components/pp-dashboard/Dashboard";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import { useLocale } from "@locale";
+import LeavePage from "./components/leave/leave.page";
+import { routes } from "routes/routes";
 
 const IARoutes = () => {
   const navigate = useNavigate();
@@ -23,7 +25,12 @@ const IARoutes = () => {
         >
           {formatMessage("PPdashboard")}
         </Button>
-        <Button size="small" variant="contained" color="secondary">
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate(routes.ia.leave)}
+        >
           {formatMessage("Apply_Leave")}
         </Button>
       </Box>
@@ -31,6 +38,7 @@ const IARoutes = () => {
       <Routes>
         <Route index Component={IAPage} />
         <Route path="pp" element={<Dashboard />} />
+        <Route path="leave" element={<LeavePage />} />
       </Routes>
     </>
   );

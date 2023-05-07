@@ -23,7 +23,7 @@ export const routesAccess: routesAccessType[] = [
     {
         role: UserRole.IA,
         access: {
-            routes: [routes.ia.root, routes.ia.pp]
+            routes: [routes.ia.root, routes.ia.pp, routes.ia.leave]
         }
     }
 ];

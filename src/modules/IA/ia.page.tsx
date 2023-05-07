@@ -19,8 +19,8 @@ function useColumns(): GridColDef[] {
       field: "studentName",
       flex: 1,
     },
-    { headerName: formatMessage("coding_course"), field: "codingCourse", flex: 1, align: "center" },
-    { headerName: formatMessage("dsa_course"), field: "dsaCourse", flex: 1, align: "center" },
+    { headerName: formatMessage("coding_course"), field: "codingCourse", flex: 1 },
+    { headerName: formatMessage("dsa_course"), field: "dsaCourse", flex: 1 },
   ];
 }
 

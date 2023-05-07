@@ -42,5 +42,14 @@
   "Add_Slot": "Add Slot",
   "ADD_Slots": "Add Extra Slots",
   "PP_Slot_Add_Success": "PP Slot Added Successfully",
-  "slots": "Slots"
+  "slots": "Slots",
+  "leave_application_title": "Leave Application (IA)",
+  "reason": "Reason",
+  "leave_start_date": "Leave Start Date",
+  "leave_end_date": "Leave End Date",
+  "session_start": "Session Start",
+  "session_end": "Session End",
+  "assignee-task": "Assignee Task",
+  "assignee_to": "Assigned To",
+  "task_details": "Task you wish to assign"
 }
