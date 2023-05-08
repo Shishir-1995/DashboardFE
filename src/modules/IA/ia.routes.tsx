@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { useLocale } from "@locale";
 import LeavePage from "./components/leave/leave.page";
 import { routes } from "routes/routes";
+import HomeDashboard from "./components/home/components/HomeDashboard";
 
 const IARoutes = () => {
   const navigate = useNavigate();
@@ -33,12 +34,21 @@ const IARoutes = () => {
         >
           {formatMessage("Apply_Leave")}
         </Button>
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate("/ia/homedashboard")}
+        >
+          {formatMessage("home_dashboard")}
+        </Button>
       </Box>
 
       <Routes>
         <Route index Component={IAPage} />
         <Route path="pp" element={<Dashboard />} />
         <Route path="leave" element={<LeavePage />} />
+        <Route path="homedashboard" element={<HomeDashboard/>}/>
       </Routes>
     </>
   );

@@ -8,7 +8,8 @@ export const routes = {
     ia: {
         root: '/ia',
         pp: '/ia/pp',
-        leave: "/ia/leave"
+        leave: "/ia/leave",
+        homedashboard: '/homedashboard'
     },
     admin: {
         root: "/admin"

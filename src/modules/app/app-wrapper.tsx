@@ -3,12 +3,13 @@ import { AppBar, Avatar, Button, Container, IconButton, Toolbar, Typography } fr
 import { eraseCookie, getCookie } from "utils/cookies/cookies";
 import { useState, useEffect } from "react";
 import { useLocale } from "@locale";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Popover from "@mui/material/Popover";
 import { enqueueSnackbar } from "notistack";
 import { HttpClientUtil } from "@http-client";
 import { IAProfileDto, StudentProfileDto } from "modules/auth/dto/login.dto";
 import { AuthRepo } from "modules/auth/service/repo";
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface props {
   children: React.ReactNode;
