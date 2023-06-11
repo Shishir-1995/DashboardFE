@@ -48,7 +48,7 @@ const IARoutes = () => {
         <Route index Component={IAPage} />
         <Route path="pp" element={<Dashboard />} />
         <Route path="leave" element={<LeavePage />} />
-        <Route path="homedashboard" element={<HomeDashboard/>}/>
+        <Route path="homedashboard" element={<HomeDashboard />} />
       </Routes>
     </>
   );

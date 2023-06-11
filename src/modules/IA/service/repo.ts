@@ -5,6 +5,7 @@ import { IAPPInfo } from "../dto/ia.pp-data.dto";
 import { ApiSlotResDto, SlotsForIa } from "../dto/ia.pp-slots.dto";
 import { IaAdhocBooking } from "../dto/ia.adhoc-list";
 import { ApiResDto } from "modules/common/dto/success.dto";
+import { leaveFormData } from "../components/leave/leave.page";
 
 class IARepoImp {
   public async getStudentList(
@@ -97,6 +98,10 @@ class IARepoImp {
 
   public async createSlot(slotStartTime: string): Promise<void> {
     await httpClient.post(`/pp/createSlots`, { slotStartTime: slotStartTime });
+  }
+
+  public async leave(leaveData: leaveFormData): Promise<void> {
+    await httpClient.post(`/leave`, leaveData);
   }
 }
 

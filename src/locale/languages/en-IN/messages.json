@@ -50,7 +50,13 @@
   "session_start": "Session Start",
   "session_end": "Session End",
   "assignee-task": "Assignee Task",
-  "assignee_to": "Assigned To",
+  "assigned_to": "Assigned To",
   "task_details": "Task you wish to assign",
-  "home_dashboard":"Home Dashboard"
+  "home_dashboard": "Home Dashboard",
+  "request": "Request",
+  "action": "Action",
+  "add_task_dialog_title": "Provide details about task",
+  "assigned_to_placeholder": "Provide Assignee Details",
+  "task_details_placeholder": "Provide Task Details",
+  "leave_requested_msg": "Leave form submitted "
 }
