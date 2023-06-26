@@ -8,6 +8,7 @@ import AppWrapper from "modules/app/app-wrapper";
 import StudentPage from "modules/student";
 import IARoutes from "modules/IA/ia.routes";
 import { getCookie } from "utils/cookies/cookies";
+import AdminRoutes from "modules/admin/admin.routes";
 
 const ProtectedRoutes = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ProtectedRoutes = () => {
       navigate(routes.student.root);
     } else if (userRole === UserRole.IA) {
       navigate(routes.ia.root);
-    } else if (userRole === UserRole.Manger) {
+    } else if (userRole === UserRole.Admin) {
       navigate(routes.admin.root);
     }
   }, []);
@@ -40,6 +41,14 @@ const ProtectedRoutes = () => {
             element={
               <Authz privileges={[UserRole.IA]}>
                 <IARoutes />
+              </Authz>
+            }
+          />
+          <Route
+            path="admin/*"
+            element={
+              <Authz privileges={[UserRole.Admin]}>
+                <AdminRoutes />
               </Authz>
             }
           />

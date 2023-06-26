@@ -4,7 +4,7 @@ import httpClient from "utils/http-client/http-client";
 
 class AuthImp {
     public async login(payload: LoginReqDto) {
-        const { data } = await httpClient.post<LoginResDto>("auth/user", payload);
+        const { data } = await httpClient.post<LoginResDto>("v1/auth/user?session=login", payload);
         setCookie("accessToken", data.accessToken)
         setCookie("role", data.role)
         setCookie("userName", data.name)

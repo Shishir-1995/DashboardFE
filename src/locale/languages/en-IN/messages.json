@@ -58,5 +58,7 @@
   "add_task_dialog_title": "Provide details about task",
   "assigned_to_placeholder": "Provide Assignee Details",
   "task_details_placeholder": "Provide Task Details",
-  "leave_requested_msg": "Leave form submitted "
+  "leave_requested_msg": "Leave form submitted ",
+  "dashboard":"Dashboard",
+  "leave_dashboard":"Leave Dashboard"
 }

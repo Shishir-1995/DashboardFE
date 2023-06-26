@@ -9,7 +9,7 @@ export type routesAccessType = {
 
 export const routesAccess: routesAccessType[] = [
     {
-        role: UserRole.Manger,
+        role: UserRole.Admin,
         access: {
             routes: [routes.admin.root]
         }

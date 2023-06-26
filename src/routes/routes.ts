@@ -12,6 +12,10 @@ export const routes = {
         homedashboard: '/homedashboard'
     },
     admin: {
-        root: "/admin"
+        root: "/admin",
+        uploadSheets:"/admin/uploadSheets",
+        createProfile:"/admin/createProfile",
+        pairProgramming:"/admin/pp",
+        leave:"/admin/leave"
     }
 };
