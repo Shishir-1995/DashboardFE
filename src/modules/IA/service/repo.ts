@@ -1,18 +1,21 @@
-import { PaginatedQueryDto, PaginatedResDto } from "modules/common/dto/paginated.dto";
+import {
+  PaginatedQueryDto,
+  PaginatedResDto,
+} from "modules/common/dto/paginated.dto";
 import { StudentDto } from "modules/student/dto/student.dto";
 import httpClient from "@http-client";
 import { IAPPInfo } from "../dto/ia.pp-data.dto";
 import { ApiSlotResDto, SlotsForIa } from "../dto/ia.pp-slots.dto";
 import { IaAdhocBooking } from "../dto/ia.adhoc-list";
 import { ApiResDto } from "modules/common/dto/success.dto";
-import { leaveFormData } from "../components/leave/leave.page";
+import { LeaveFormData } from "../components/leave/leave.page";
 
 class IARepoImp {
   public async getStudentList(
     paginateOptions?: PaginatedQueryDto
   ): Promise<PaginatedResDto<StudentDto>> {
     const { data } = await httpClient.post<PaginatedResDto<StudentDto>>(
-      "/pp/getStudentInfo",
+      "/v1/meeting/data?type=studentDetails",
       null,
       {
         params: paginateOptions,
@@ -22,30 +25,40 @@ class IARepoImp {
     return data;
   }
 
-  public async getSlots(): Promise<ApiSlotResDto<SlotsForIa[]>> {
-    const { data } = await httpClient.post<ApiSlotResDto<SlotsForIa[]>>("/pp/slotsForIa");
+  public async getSlots() {
+    const { data } = await httpClient.post<ApiResDto<SlotsForIa[]>>(
+      "/v1/meeting/data?type=pp-slots"
+    );
     return data;
   }
 
-  public async cancelPP(ppId: number): Promise<void> {
-    await httpClient.post(`pp/cancelSlot/${ppId}`);
+  public async cancelPP(ppId: number, cancelReason: string): Promise<void> {
+    await httpClient.post(`v1/meeting/slot?purpose=cancel`, {
+      meetingId: ppId,
+      cancelReason,
+    });
   }
 
-  public async getPPDataInfo(value: string, page: number): Promise<PaginatedResDto<IAPPInfo>> {
+  public async getPPDataInfo(
+    value: string,
+    page: number
+  ): Promise<PaginatedResDto<IAPPInfo>> {
     const { data } = await httpClient.post<PaginatedResDto<IAPPInfo>>(
-      "/pp/iaPPData",
+      "/v1/meeting/data?type=pp-timeline",
       {},
       {
         params: {
           page: page,
-          type: value,
+          timeline: value,
         },
       }
     );
     return data;
   }
 
-  public async getAdhocSessions(page: number): Promise<PaginatedResDto<IaAdhocBooking>> {
+  public async getAdhocSessions(
+    page: number
+  ): Promise<PaginatedResDto<IaAdhocBooking>> {
     const { data } = await httpClient.post<PaginatedResDto<IaAdhocBooking>>(
       `/pp/getIaAdhocInfo`,
       {},
@@ -82,26 +95,30 @@ class IARepoImp {
     }
   }
 
-  public async addFeedbackToAdhocSession(
-    adhocId: number,
-    feedback: string
-  ): Promise<ApiResDto<string>> {
-    const { data } = await httpClient.post<ApiResDto<string>>(`/pp/adhoc/${adhocId}/feedback`, {
-      feedback: feedback,
-    });
-    return data;
-  }
+  // public async addFeedbackToAdhocSession(
+  //   adhocId: number,
+  //   feedback: string
+  // ): Promise<ApiResDto<string>> {
+  //   const { data } = await httpClient.post<ApiResDto<string>>(
+  //     `/v1/meeting/slot?purpose=feedback`,
+  //     {
+  //       feedback: feedback,
+  //       meetingId: adhocId,
+  //     }
+  //   );
+  //   return data;
+  // }
 
   public async deletePpSlot(slotId: number): Promise<void> {
-    await httpClient.post(`/pp/deleteSlot/${slotId}`, {});
+    await httpClient.post(`/v1/meeting/slot?purpose=delete`, { slotId });
   }
 
-  public async createSlot(slotStartTime: string): Promise<void> {
-    await httpClient.post(`/pp/createSlots`, { slotStartTime: slotStartTime });
+  public async createSlot(startTime: string): Promise<void> {
+    await httpClient.post(`/v1/meeting/slot?purpose=create`, { startTime });
   }
 
-  public async leave(leaveData: leaveFormData): Promise<void> {
-    await httpClient.post(`/leave`, leaveData);
+  public async leave(leaveData: LeaveFormData): Promise<void> {
+    await httpClient.post(`/v1/leave?scope=apply`, { data: leaveData });
   }
 }
 

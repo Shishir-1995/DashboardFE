@@ -22,22 +22,22 @@ import { HttpClientUtil } from "@http-client";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 
-export interface leaveFormData {
+export interface LeaveFormData {
   reason: string;
-  startDate: string;
-  endDate: string;
-  sessionStart: string;
-  sessionEnd: string;
-  tasks: LeaveTask[];
+  startDate: string | Date;
+  endDate: string | Date;
+  startSession: number;
+  endSession: number;
+  handoverTask: LeaveTask[];
 }
 
-const initDate: leaveFormData = {
+const initDate: LeaveFormData = {
   reason: "",
   startDate: dayjs().format("DD-MM-YYYY"),
   endDate: dayjs().format("DD-MM-YYYY"),
-  sessionStart: "",
-  sessionEnd: "",
-  tasks: [],
+  startSession: 1,
+  endSession: 2,
+  handoverTask: [],
 };
 
 const LeavePage = () => {
@@ -50,9 +50,15 @@ const LeavePage = () => {
   async function handleForm(e: React.BaseSyntheticEvent) {
     e.preventDefault();
     try {
-      await IARepo.leave(leaveData);
+      await IARepo.leave({
+        ...leaveData,
+        startDate: new Date(leaveData.startDate),
+        endDate: new Date(leaveData.endDate),
+      });
       navigate(-1);
-      enqueueSnackbar(formatMessage("leave_requested_msg"), { variant: "success" });
+      enqueueSnackbar(formatMessage("leave_requested_msg"), {
+        variant: "success",
+      });
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);
       enqueueSnackbar(msg, { variant: "error" });
@@ -65,7 +71,7 @@ const LeavePage = () => {
   }
 
   function updateTask(tasks: LeaveTask[]) {
-    setLeaveData({ ...leaveData, tasks: [...tasks] });
+    setLeaveData({ ...leaveData, handoverTask: [...tasks] });
   }
 
   return (
@@ -93,7 +99,10 @@ const LeavePage = () => {
                 disablePast
                 defaultValue={dayjs()}
                 onChange={(newValue) =>
-                  setLeaveData({ ...leaveData, startDate: dayjs(newValue).format("DD-MM-YYYY") })
+                  setLeaveData({
+                    ...leaveData,
+                    startDate: dayjs(newValue).format("DD-MM-YYYY"),
+                  })
                 }
                 onError={(newError) => setError(newError)}
                 slotProps={{
@@ -109,7 +118,10 @@ const LeavePage = () => {
                 defaultValue={dayjs()}
                 minDate={dayjs(leaveData.startDate, "DD-MM-YYYY")}
                 onChange={(newValue) =>
-                  setLeaveData({ ...leaveData, endDate: dayjs(newValue).format("DD-MM-YYYY") })
+                  setLeaveData({
+                    ...leaveData,
+                    endDate: dayjs(newValue).format("DD-MM-YYYY"),
+                  })
                 }
                 onError={(newError) => setError(newError)}
                 slotProps={{
@@ -126,26 +138,26 @@ const LeavePage = () => {
                 <InputLabel>{formatMessage("session_start")}</InputLabel>
                 <Select
                   label={formatMessage("session_start")}
-                  name="sessionStart"
+                  name="startSession"
                   onChange={handleChange}
                 >
-                  <MenuItem value="slot_1">Slot 1</MenuItem>
-                  <MenuItem value="slot_2">Slot 2</MenuItem>
+                  <MenuItem value={1}>Slot 1</MenuItem>
+                  <MenuItem value={2}>Slot 2</MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth required>
                 <InputLabel>{formatMessage("session_end")}</InputLabel>
                 <Select
                   label={formatMessage("session_end")}
-                  name="sessionEnd"
+                  name="endSession"
                   onChange={handleChange}
                 >
-                  <MenuItem value="slot_1">Slot 1</MenuItem>
-                  <MenuItem value="slot_2">Slot 2</MenuItem>
+                  <MenuItem value={1}>Slot 1</MenuItem>
+                  <MenuItem value={2}>Slot 2</MenuItem>
                 </Select>
               </FormControl>
             </div>
-            <TaskTable tasks={leaveData.tasks} updateTask={updateTask} />
+            <TaskTable tasks={leaveData.handoverTask} updateTask={updateTask} />
           </div>
           <Button
             disabled={!!error}

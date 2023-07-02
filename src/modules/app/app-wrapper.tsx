@@ -1,15 +1,22 @@
 import { useTheme } from "@emotion/react";
-import { AppBar, Avatar, Button, Container, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  Container,
+  IconButton,
+  Toolbar,
+  Typography,
+  MenuItem,
+} from "@mui/material";
 import { eraseCookie, getCookie } from "utils/cookies/cookies";
 import { useState, useEffect } from "react";
 import { useLocale } from "@locale";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Popover from "@mui/material/Popover";
-import { enqueueSnackbar } from "notistack";
-import { HttpClientUtil } from "@http-client";
 import { IAProfileDto, StudentProfileDto } from "modules/auth/dto/login.dto";
-import { AuthRepo } from "modules/auth/service/repo";
-import MenuIcon from '@mui/icons-material/Menu';
+import { commonRepo } from "modules/common/service/repo";
+import { UserRole } from "modules/user/enum/user-role";
 
 interface props {
   children: React.ReactNode;
@@ -17,11 +24,14 @@ interface props {
 
 const AppWrapper: React.FC<props> = ({ children }) => {
   const theme = useTheme();
-  const [userName, setUserName] = useState<string | undefined>(getCookie("userName"));
-  const [profileData, setProfileData] = useState<StudentProfileDto | IAProfileDto>();
+  const [userName, setUserName] = useState<string | undefined>(
+    getCookie("userName")
+  );
+  const [profileData, setProfileData] = useState<
+    StudentProfileDto | IAProfileDto
+  >();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const { formatMessage } = useLocale();
   const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -48,25 +58,19 @@ const AppWrapper: React.FC<props> = ({ children }) => {
   const getName = (data: string): void => {
     let temp_userName = data;
     let firstName = temp_userName.split(" ")[0];
-    const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    const capitalizedFirstName =
+      firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
     setUserName(capitalizedFirstName);
   };
 
-  const handleGetDataForProfile = async (): Promise<void> => {
-    try {
-      if (getCookie("role") === "Student") {
-        const studentProfile = await AuthRepo.getStudentProfile();
-        setProfileData(studentProfile.data);
-      } else {
-        const iaProfile = await AuthRepo.getIaProfile();
-        setProfileData(iaProfile.data);
-      }
-    } catch (error) {
-      const msg = HttpClientUtil.getErrorMsgKey(error);
-      enqueueSnackbar(msg, { variant: "error" });
-    }
-  };
+  async function integrateGoogle() {
+    commonRepo.integrateGoogle();
+  }
+
+  async function integrateZoom() {
+    commonRepo.integrateZoom();
+  }
 
   return (
     <div>
@@ -79,17 +83,17 @@ const AppWrapper: React.FC<props> = ({ children }) => {
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters className="flex justify-between">
-            <img src="https://masaischool.com/img/navbar/logo.svg" loading="lazy" />
+            <img
+              src="https://masaischool.com/img/navbar/logo.svg"
+              loading="lazy"
+            />
 
             <div className="flex items-center gap-2">
               <Typography color="black">Hello, {userName}</Typography>
               <IconButton
                 size="small"
                 color="primary"
-                onClick={(e) => {
-                  handleClick(e);
-                  handleGetDataForProfile();
-                }}
+                onClick={handleClick}
                 aria-describedby={id}
               >
                 <Avatar className="bg-gray-500">
@@ -106,31 +110,40 @@ const AppWrapper: React.FC<props> = ({ children }) => {
                   horizontal: "left",
                 }}
                 color="info"
+                sx={{ "& .MuiPopover-paper": { paddingY: "12px" } }}
               >
-                <Typography sx={{ p: 0.5 }} textAlign={"center"} fontWeight={"shadow_5"}>
-                  {profileData?.name}
-                </Typography>
-                <Typography sx={{ p: 1 }} fontStyle={"italic"} fontSize={"14px"}>
-                  {profileData?.email}
+                <Typography
+                  className="px-3"
+                  fontWeight={"shadow_5"}
+                  variant="h4"
+                >
+                  {getCookie("userName")}
                 </Typography>
                 <Typography
-                  variant="overline"
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignContent={"center"}
+                  className="px-3 pb-3"
+                  fontStyle={"italic"}
+                  fontSize={"14px"}
                 >
-                  <Button
-                    onClick={() => {
-                      eraseCookie("role");
-                      eraseCookie("userName");
-                      eraseCookie("accessToken");
-                      navigate("/auth/login");
-                    }}
-                    variant="text"
-                  >
-                    Sign Out
-                  </Button>
+                  {getCookie("email")}
                 </Typography>
+                {getCookie("role") === UserRole.IA && (
+                  <>
+                    <MenuItem onClick={integrateGoogle}>
+                      Intgrate Google{" "}
+                    </MenuItem>
+                    <MenuItem onClick={integrateZoom}>Intgrate Zoom </MenuItem>
+                  </>
+                )}
+                <MenuItem
+                  onClick={() => {
+                    eraseCookie("role");
+                    eraseCookie("userName");
+                    eraseCookie("accessToken");
+                    navigate("/auth/login");
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Popover>
             </div>
           </Toolbar>

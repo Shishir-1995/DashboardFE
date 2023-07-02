@@ -1,20 +1,44 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
-import { mockLineData as data } from "../data/mockdata";
 import { tokens } from "styles/theme";
+import { LeaderGraph } from "../dto/statistics.dto";
+import { useMemo } from "react";
+import { LeaderboardType } from "../enum/statistice.enum";
 
 interface Props {
-    isCustomLineColors?:boolean,
-    isDashboard?:boolean
+  isCustomLineColors?: boolean;
+  isDashboard?: boolean;
+  data: LeaderGraph[];
 }
 
-const LineChart:React.FC<Props> = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChart: React.FC<Props> = ({
+  isCustomLineColors = false,
+  isDashboard = false,
+  data,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const greenAccent = tokens("dark").greenAccent[500];
+  const blueAccent = tokens("dark").blueAccent[300];
+  const redAccent = tokens("dark").redAccent[200];
+
+  const iaData = useMemo(() => {
+    return data.map((row) => {
+      if (row.id === LeaderboardType.Open) {
+        return { ...row, color: greenAccent };
+      } else if (row.id === LeaderboardType.booked) {
+        return { ...row, color: blueAccent };
+      } else {
+        return { ...row, color: redAccent };
+      }
+    });
+  }, [data]);
+  console.log(iaData);
   return (
     // @ts-ignore
     <ResponsiveLine
-      data={data}
+      data={iaData}
       theme={{
         axis: {
           domain: {

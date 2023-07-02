@@ -6,11 +6,17 @@ import { PPBookingType } from "modules/common/enum/pp-booking-type.enum";
 import { StudentBooking } from "modules/student/dto/student.bookings.dto";
 import { studentRepo } from "modules/student/service/repo";
 import { enqueueSnackbar } from "notistack";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Pagination from "./pagination";
+import PPCancelDialog from "modules/common/components/pp-cancel-dialog";
 
 const UpcommingBookings = () => {
-  const [upcommingBooking, setUpcommingBooking] = useState<StudentBooking[]>([]);
+  const [upcommingBooking, setUpcommingBooking] = useState<StudentBooking[]>(
+    []
+  );
+  const [ppCancelDialog, setPPCancelDialog] = useState(false);
+  const ppIdRef = useRef<number>(-1);
+
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const { formatMessage } = useLocale();
@@ -23,10 +29,20 @@ const UpcommingBookings = () => {
     return upcommingBooking.map((booking) => (
       <BookingTile key={booking.id} booking={booking}>
         <div className="flex gap-4">
-          <Button variant="contained" onClick={() => joinPP(booking.studentFeedback)}>
+          <Button
+            variant="contained"
+            onClick={() => joinPP(booking.meetingLink)}
+          >
             {formatMessage("join")}
           </Button>
-          <Button variant="contained" onClick={() => cancelPP(booking.id)} color="error">
+          <Button
+            variant="contained"
+            onClick={() => {
+              ppIdRef.current = booking.id;
+              setPPCancelDialog(true);
+            }}
+            color="error"
+          >
             {formatMessage("cancel")}
           </Button>
         </div>
@@ -36,7 +52,10 @@ const UpcommingBookings = () => {
 
   async function fetchData() {
     try {
-      const res = await studentRepo.getAllBookings(PPBookingType.Upcoming, page);
+      const res = await studentRepo.getAllBookings(
+        PPBookingType.Upcoming,
+        page
+      );
       setTotalPage(res.totalPages!);
       setUpcommingBooking(res.items);
     } catch (error) {
@@ -51,17 +70,6 @@ const UpcommingBookings = () => {
 
   function joinPP(url: string) {
     window.open(url, "_blank");
-  }
-
-  async function cancelPP(ppId: number) {
-    try {
-      await studentRepo.cancelPP(ppId);
-      enqueueSnackbar(formatMessage("pp_cancel_sucessfull_msg"), { variant: "success" });
-      fetchData();
-    } catch (error) {
-      const msg = HttpClientUtil.getErrorMsgKey(error);
-      enqueueSnackbar(msg, { variant: "error" });
-    }
   }
 
   return (
@@ -80,6 +88,12 @@ const UpcommingBookings = () => {
           {formatMessage("no_pp_history")}
         </Typography>
       )}
+      <PPCancelDialog
+        onClose={() => setPPCancelDialog(!ppCancelDialog)}
+        open={ppCancelDialog}
+        ppID={ppIdRef.current}
+        refetch={fetchData}
+      />
     </div>
   );
 };

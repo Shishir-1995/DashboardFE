@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
 import { useLocale } from "@locale";
 import { Typography } from "@mui/material";
-import { StudentAdhocBooking, StudentBooking } from "modules/student/dto/student.bookings.dto";
+import { IAPPInfo } from "modules/IA/dto/ia.pp-data.dto";
+import {
+  StudentAdhocBooking,
+  StudentBooking,
+} from "modules/student/dto/student.bookings.dto";
 import { createLogger } from "vite";
 
 const StyleBookingTile = styled("div")(({ theme }) => ({
@@ -19,13 +23,13 @@ const StyleBookingTile = styled("div")(({ theme }) => ({
 }));
 
 interface Props {
-  booking: StudentAdhocBooking|StudentBooking;
+  booking: StudentBooking | IAPPInfo;
   children: React.ReactNode;
 }
 
 const BookingTile: React.FC<Props> = ({ booking, children }) => {
   const { formatMessage } = useLocale();
-  
+
   return (
     <StyleBookingTile>
       <div className="flex flex-col gap-2">
@@ -33,25 +37,18 @@ const BookingTile: React.FC<Props> = ({ booking, children }) => {
           {formatMessage("topic")} : {booking.topic}
         </Typography>
         <Typography variant="h4">
-          {formatMessage("pair_programmer")} : {booking.iaId}
+          {formatMessage("pair_programmer")} : {booking.iaEmail}
         </Typography>
         <Typography variant="h4" fontWeight={500} className="italic">
-          {new Date(booking.SlotDate).toLocaleDateString("en-US", {
+          {new Date(booking.slotDate).toLocaleDateString("en-US", {
             dateStyle: "medium",
-          }) === "Invalid Date" ? (
-            <>Adhoc Session</>
-          ) : (
-            <>
-              {new Date(booking.SlotDate).toLocaleDateString("en-US", {
-                dateStyle: "medium",
-              })}{" "}
-              :{" "}
-              {new Date(booking.SlotDate).toLocaleTimeString("en-US", {
-                timeZone: "Asia/Kolkata",
-              })}
-            </>
-          )}
+          })}{" "}
+          :{" "}
+          {new Date(booking.slotDate).toLocaleTimeString("en-US", {
+            timeZone: "Asia/Kolkata",
+          })}
         </Typography>
+        <Typography variant="h4">Session: {booking.type}</Typography>
       </div>
       <div>{children}</div>
     </StyleBookingTile>

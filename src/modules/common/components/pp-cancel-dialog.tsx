@@ -6,14 +6,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Icon,
   TextField,
-  IconButton,
 } from "@mui/material";
+import { IARepo } from "modules/IA/service/repo";
 import { studentRepo } from "modules/student/service/repo";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import StarIcon from "@mui/icons-material/Star";
 
 interface Props {
   open: boolean;
@@ -22,17 +20,16 @@ interface Props {
   refetch: () => void;
 }
 
-const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
+const PPCancelDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
   const { formatMessage } = useLocale();
   const { enqueueSnackbar } = useSnackbar();
-  const [feedback, setFeedBack] = useState("");
-  const [rating, setRating] = useState(1);
+  const [cancelReason, setCencelReason] = useState("");
 
   async function handleSubmit() {
     try {
-      await studentRepo.submitFeedback(ppID, `${rating} | ${feedback.trim()}`);
-      setFeedBack("");
-      enqueueSnackbar(formatMessage("pp_feedback_submited_msg"), {
+      await IARepo.cancelPP(ppID, cancelReason.trim());
+      setCencelReason("");
+      enqueueSnackbar(formatMessage("pp_cancelled_submited_msg"), {
         variant: "success",
       });
       onClose();
@@ -46,27 +43,17 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle variant="h2" color="primary">
-        {formatMessage("PP_feeback_dialog_title")}
+        {formatMessage("PP_cancel_dialog_title")}
       </DialogTitle>
       <DialogContent>
-        {new Array(5).fill(1).map((_star, index) => (
-          <IconButton
-            key={`star-${index}`}
-            onClick={() => setRating(index + 1)}
-            color={index < rating ? "warning" : "default"}
-          >
-            <StarIcon />
-          </IconButton>
-        ))}
-
         <TextField
-          value={feedback}
-          onChange={(e) => setFeedBack(e.target.value)}
+          value={cancelReason}
+          onChange={(e) => setCencelReason(e.target.value)}
           multiline
           maxRows={4}
-          placeholder={formatMessage("PP_feeback_placeholder")}
+          placeholder={formatMessage("PP_cencel_placeholder")}
           fullWidth
-          inputProps={{ minLength: 2 }}
+          inputProps={{ minLength: 5 }}
         />
       </DialogContent>
       <DialogActions className="p-4">
@@ -81,4 +68,4 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
   );
 };
 
-export default PPFeebackDialog;
+export default PPCancelDialog;

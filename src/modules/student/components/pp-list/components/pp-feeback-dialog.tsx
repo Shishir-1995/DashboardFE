@@ -7,10 +7,12 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  IconButton,
 } from "@mui/material";
 import { studentRepo } from "modules/student/service/repo";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import StarIcon from "@mui/icons-material/Star";
 
 interface Props {
   open: boolean;
@@ -23,12 +25,15 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
   const { formatMessage } = useLocale();
   const { enqueueSnackbar } = useSnackbar();
   const [feedback, setFeedBack] = useState("");
+  const [rating, setRating] = useState(1);
 
   async function handleSubmit() {
     try {
-      await studentRepo.submitFeedback(ppID, feedback.trim());
+      await studentRepo.submitFeedback(ppID, `${rating} | ${feedback.trim()}`);
       setFeedBack("");
-      enqueueSnackbar(formatMessage("pp_feedback_submited_msg"), { variant: "success" });
+      enqueueSnackbar(formatMessage("pp_feedback_submited_msg"), {
+        variant: "success",
+      });
       onClose();
       refetch();
     } catch (error) {
@@ -43,6 +48,15 @@ const PPFeebackDialog: React.FC<Props> = ({ open, onClose, ppID, refetch }) => {
         {formatMessage("PP_feeback_dialog_title")}
       </DialogTitle>
       <DialogContent>
+        {new Array(5).fill(1).map((_star, index) => (
+          <IconButton
+            key={`star-${index}`}
+            onClick={() => setRating(index + 1)}
+            color={index < rating ? "warning" : "default"}
+          >
+            <StarIcon />
+          </IconButton>
+        ))}
         <TextField
           value={feedback}
           onChange={(e) => setFeedBack(e.target.value)}

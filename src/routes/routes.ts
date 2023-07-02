@@ -15,6 +15,7 @@ export const routes = {
         root: "/admin",
         uploadSheets:"/admin/uploadSheets",
         createProfile:"/admin/createProfile",
+        manageRole:"/admin/manageRole",
         pairProgramming:"/admin/pp",
         leave:"/admin/leave"
     }

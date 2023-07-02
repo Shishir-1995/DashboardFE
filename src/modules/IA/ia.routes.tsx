@@ -15,7 +15,12 @@ const IARoutes = () => {
   return (
     <>
       <Box className="flex flex-wrap justify-end gap-4">
-        <Button size="small" variant="contained" color="secondary" onClick={() => navigate("/ia")}>
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate("/ia")}
+        >
           {formatMessage("Student_Details")}
         </Button>
         <Button
@@ -33,14 +38,6 @@ const IARoutes = () => {
           onClick={() => navigate(routes.ia.leave)}
         >
           {formatMessage("Apply_Leave")}
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          color="secondary"
-          onClick={() => navigate("/ia/homedashboard")}
-        >
-          {formatMessage("home_dashboard")}
         </Button>
       </Box>
 

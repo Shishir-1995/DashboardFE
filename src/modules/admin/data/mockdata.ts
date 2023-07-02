@@ -2,19 +2,19 @@ import { tokens } from "styles/theme";
 
 export const mockLineData = [
   {
-    id: "japan",
+    id: "Open",
     color: tokens("dark").greenAccent[500],
     data: [
       {
-        x: "plane",
+        x: "Shishir",
         y: 101,
       },
       {
-        x: "helicopter",
+        x: "Sanjay",
         y: 75,
       },
       {
-        x: "boat",
+        x: "Pankaj",
         y: 36,
       },
       {
@@ -56,19 +56,19 @@ export const mockLineData = [
     ],
   },
   {
-    id: "france",
+    id: "completed",
     color: tokens("dark").blueAccent[300],
     data: [
       {
-        x: "plane",
+        x: "Shishir",
         y: 212,
       },
       {
-        x: "helicopter",
+        x: "Sanjay",
         y: 190,
       },
       {
-        x: "boat",
+        x: "Pankaj",
         y: 270,
       },
       {
@@ -110,19 +110,19 @@ export const mockLineData = [
     ],
   },
   {
-    id: "us",
+    id: "Cancelled",
     color: tokens("dark").redAccent[200],
     data: [
       {
-        x: "plane",
+        x: "Shishir",
         y: 191,
       },
       {
-        x: "helicopter",
+        x: "Sanjay",
         y: 136,
       },
       {
-        x: "boat",
+        x: "Pankaj",
         y: 91,
       },
       {

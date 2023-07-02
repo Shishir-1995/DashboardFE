@@ -10,8 +10,8 @@ function useColumns(): GridColDef[] {
   const { formatMessage } = useLocale();
   return [
     {
-      headerName: formatMessage("student_code"),
-      field: "studentCode",
+      headerName: formatMessage("student_email"),
+      field: "studentEmail",
       flex: 1,
     },
     {
@@ -19,8 +19,17 @@ function useColumns(): GridColDef[] {
       field: "studentName",
       flex: 1,
     },
-    { headerName: formatMessage("coding_course"), field: "codingCourse", flex: 1 },
+    {
+      headerName: formatMessage("coding_course"),
+      field: "codingCourse",
+      flex: 1,
+    },
     { headerName: formatMessage("dsa_course"), field: "dsaCourse", flex: 1 },
+    {
+      headerName: formatMessage("meetings_booked"),
+      field: "meetingsBooked",
+      flex: 1,
+    },
   ];
 }
 

@@ -19,9 +19,11 @@ interface props {
 const IASlots: React.FC<props> = ({ toggleState }) => {
   const [loading, setLoading] = useState(false);
   const [slots, setSlots] = useState<SlotsForIa[]>([]);
-  const [slotDeleteDialogState, setSlotDeleteDialogState] = useState<boolean>(false);
+  const [slotDeleteDialogState, setSlotDeleteDialogState] =
+    useState<boolean>(false);
   const [deleteSlotId, setSlotDeleteId] = useState<number>(0);
-  const [addSlotDialogestate, setAddSlotDialogestate] = useState<boolean>(false);
+  const [addSlotDialogestate, setAddSlotDialogestate] =
+    useState<boolean>(false);
   const dateRef = useRef<string>("");
 
   const { enqueueSnackbar } = useSnackbar();
@@ -34,7 +36,7 @@ const IASlots: React.FC<props> = ({ toggleState }) => {
     try {
       setLoading(true);
       const data = await IARepo.getSlots();
-      setSlots(data.slots);
+      setSlots(data.data);
     } catch (error) {
       const msg = HttpClientUtil.getErrorMsgKey(error);
       enqueueSnackbar(msg, { variant: "error" });
@@ -43,17 +45,20 @@ const IASlots: React.FC<props> = ({ toggleState }) => {
     }
   }
 
-  const slotsData = slots?.reduce((result: Record<string, SlotsForIa[]>, slot) => {
-    const date = new Date(slot.startTime).toLocaleDateString();
+  const slotsData = slots?.reduce(
+    (result: Record<string, SlotsForIa[]>, slot) => {
+      const date = new Date(slot.startTime).toLocaleDateString();
 
-    if (!result[date]) {
-      result[date] = [];
-    }
+      if (!result[date]) {
+        result[date] = [];
+      }
 
-    result[date].push(slot);
+      result[date].push(slot);
 
-    return result;
-  }, {});
+      return result;
+    },
+    {}
+  );
 
   const handleDelete = (id: number): void => {
     setSlotDeleteId(id);
@@ -74,7 +79,9 @@ const IASlots: React.FC<props> = ({ toggleState }) => {
               <Chip
                 className="rounded-md"
                 color="secondary"
-                label={new Date(slot).toLocaleDateString("en-us", { dateStyle: "medium" })}
+                label={new Date(slot).toLocaleDateString("en-us", {
+                  dateStyle: "medium",
+                })}
               />
               <div className="flex gap-4 flex-wrap items-center">
                 {slotsData[slot].map((s, i) => (

@@ -2,15 +2,21 @@ import { Box, Typography, useTheme } from "@mui/material";
 import ProgressCircle from "./ProgressCircle";
 import { tokens } from "styles/theme";
 
-interface Props{
-    title:string,
-    subtitle:string,
-    icon:React.ReactNode
-    progress:number,
-    increase:string
+interface Props {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  progress: number;
+  increase: string;
 }
 
-const StatBox:React.FC<Props> = ({ title, subtitle, icon, progress, increase }) => {
+const StatBox: React.FC<Props> = ({
+  title,
+  subtitle,
+  icon,
+  progress,
+  increase,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -23,15 +29,16 @@ const StatBox:React.FC<Props> = ({ title, subtitle, icon, progress, increase }) 
             variant="h4"
             fontWeight="bold"
             sx={{ color: colors.grey[100] }}
+            className="mt-3"
           >
             {title}
           </Typography>
         </Box>
         <Box>
-          <ProgressCircle progress={progress}  />
+          <ProgressCircle progress={progress} />
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between" mt="2px">
+      <Box display="flex" justifyContent="space-between" mt="10px">
         <Typography variant="h5" sx={{ color: colors.greenAccent[500] }}>
           {subtitle}
         </Typography>

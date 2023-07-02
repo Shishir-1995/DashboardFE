@@ -14,10 +14,16 @@ import { AuthRepo } from "../service/repo";
 import { useNavigate } from "react-router-dom";
 import { HttpClientUtil } from "@http-client";
 import { enqueueSnackbar } from "notistack";
+import { getCookie } from "utils/cookies/cookies";
 
 function Copyright(props: any) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {"Copyright © "}
       <Link color="inherit" href="https://masaischool.com/">
         Your Website
@@ -30,6 +36,12 @@ function Copyright(props: any) {
 
 export default function SignIn() {
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (getCookie("accessToken")) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,7 +108,12 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Sign In
           </Button>
           <Grid container>

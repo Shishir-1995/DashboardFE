@@ -5,19 +5,23 @@ import BookingTile from "modules/common/components/booking-tile";
 import { PPBookingType } from "modules/common/enum/pp-booking-type.enum";
 import { StudentBooking } from "modules/student/dto/student.bookings.dto";
 import { enqueueSnackbar } from "notistack";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Pagination from "./pagination";
 import { IARepo } from "modules/IA/service/repo";
+import { IAPPInfo } from "modules/IA/dto/ia.pp-data.dto";
+import PPCancelDialog from "modules/common/components/pp-cancel-dialog";
 
 interface props {
   handleToggle: () => void;
 }
 
 const UpcommingBookings: React.FC<props> = ({ handleToggle }) => {
-  const [upcommingBooking, setUpcommingBooking] = useState<StudentBooking[]>([]);
+  const [upcommingBooking, setUpcommingBooking] = useState<IAPPInfo[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const { formatMessage } = useLocale();
+  const [ppCancelDialog, setPPCancelDialog] = useState(false);
+  const ppIdRef = useRef<number>(-1);
 
   useEffect(() => {
     fetchData();
@@ -27,10 +31,20 @@ const UpcommingBookings: React.FC<props> = ({ handleToggle }) => {
     return upcommingBooking.map((booking) => (
       <BookingTile key={booking.id} booking={booking}>
         <div className="flex gap-4">
-          <Button variant="contained" onClick={() => joinPP(booking.studentFeedback)}>
+          <Button
+            variant="contained"
+            onClick={() => joinPP(booking.meetingLink)}
+          >
             {formatMessage("join")}
           </Button>
-          <Button variant="contained" onClick={() => cancelPP(booking.id)} color="error">
+          <Button
+            variant="contained"
+            onClick={() => {
+              ppIdRef.current = booking.id;
+              setPPCancelDialog(true);
+            }}
+            color="error"
+          >
             {formatMessage("cancel")}
           </Button>
         </div>
@@ -57,18 +71,6 @@ const UpcommingBookings: React.FC<props> = ({ handleToggle }) => {
     window.open(url, "_blank");
   }
 
-  async function cancelPP(ppId: number) {
-    try {
-      await IARepo.cancelPP(ppId);
-      enqueueSnackbar(formatMessage("pp_cancel_sucessfull_msg"), { variant: "success" });
-      fetchData();
-      handleToggle();
-    } catch (error) {
-      const msg = HttpClientUtil.getErrorMsgKey(error);
-      enqueueSnackbar(msg, { variant: "error" });
-    }
-  }
-
   return (
     <div>
       {activeBookingData.length ? (
@@ -85,6 +87,12 @@ const UpcommingBookings: React.FC<props> = ({ handleToggle }) => {
           {formatMessage("no_pp_history")}
         </Typography>
       )}
+      <PPCancelDialog
+        onClose={() => setPPCancelDialog(!ppCancelDialog)}
+        open={ppCancelDialog}
+        ppID={ppIdRef.current}
+        refetch={fetchData}
+      />
     </div>
   );
 };
