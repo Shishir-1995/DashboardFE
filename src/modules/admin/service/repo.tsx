@@ -65,6 +65,10 @@ class AdminRepoImp {
 
     return data;
   }
+
+  public async uploadSheet(url: string) {
+    await httpClient.post("/v1/meeting/data?type=upload");
+  }
 }
 
 export const AdminRepo = new AdminRepoImp();

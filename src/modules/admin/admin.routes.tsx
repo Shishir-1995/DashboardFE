@@ -8,6 +8,7 @@ import { useState } from "react";
 import CreateUser from "./pages/create-user.page";
 import ManageRolePage from "./pages/manageRole.page";
 import ManageLeaves from "./pages/manage-leaves";
+import UploadSheetDialog from "./components/upload-sheet-dialog";
 
 export function ManageProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -59,6 +60,7 @@ export function ManageProfileMenu() {
 const AdminRoutes = () => {
   const { formatMessage } = useLocale();
   const navigate = useNavigate();
+  const [uploadSheetDialog, serUploadSheetDialog] = useState(false);
 
   return (
     <>
@@ -67,7 +69,7 @@ const AdminRoutes = () => {
           size="small"
           variant="contained"
           color="secondary"
-          onClick={() => navigate(routes.admin.uploadSheets)}
+          onClick={() => serUploadSheetDialog(true)}
         >
           {formatMessage("upload_sheets")}
         </Button>
@@ -106,6 +108,10 @@ const AdminRoutes = () => {
         <Route path="/manageRole" Component={ManageRolePage} />
         <Route path="/leave" Component={ManageLeaves} />
       </Routes>
+      <UploadSheetDialog
+        open={uploadSheetDialog}
+        onClose={() => serUploadSheetDialog(false)}
+      />
     </>
   );
 };

@@ -78,5 +78,8 @@
   "meetings_booked":"Meetings Booked",
   "PP_cancel_dialog_title":"Provide Reason to cancel meeting",
   "PP_cencel_placeholder":"Enter",
-  "pp_cancelled_submited_msg":"PP Cancelled Successfully"
+  "pp_cancelled_submited_msg":"PP Cancelled Successfully",
+  "upload_sheets":"Upload Sheet",
+  "upload_sheet_dialog_title":"Downlaod Tamplate or Upload sheet",
+  "sheet_uploaded_msg":"Sheet has been uploaded successfully."
 }
