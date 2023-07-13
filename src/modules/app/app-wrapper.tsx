@@ -129,9 +129,9 @@ const AppWrapper: React.FC<props> = ({ children }) => {
                 {getCookie("role") === UserRole.IA && (
                   <>
                     <MenuItem onClick={integrateGoogle}>
-                      Intgrate Google{" "}
+                      Integrate Google{" "}
                     </MenuItem>
-                    <MenuItem onClick={integrateZoom}>Intgrate Zoom </MenuItem>
+                    <MenuItem onClick={integrateZoom}>Integrate Zoom </MenuItem>
                   </>
                 )}
                 <MenuItem

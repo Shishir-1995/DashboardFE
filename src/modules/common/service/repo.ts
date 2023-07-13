@@ -2,11 +2,11 @@ import httpClient from "utils/http-client/http-client";
 
 class CommonRepoImp {
   public async integrateZoom() {
-    await httpClient.get("/zoom/authentication");
+    window.open("http://localhost:8081/zoom/authentication")
   }
 
   public async integrateGoogle() {
-    await httpClient.get("/google/login");
+    window.open("http://localhost:8081/google/login");
   }
 }
 export const commonRepo = new CommonRepoImp();

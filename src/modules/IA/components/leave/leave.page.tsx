@@ -49,11 +49,18 @@ const LeavePage = () => {
 
   async function handleForm(e: React.BaseSyntheticEvent) {
     e.preventDefault();
+    const startDate : any = leaveData.startDate
+    const endDate : any = leaveData.endDate
+    const [startDay, startMonth, startYear] = startDate.split("-");
+    const [day, month, year] = endDate.split("-");
+    const endIsoDate = new Date(year, month - 1, day).toISOString().split('T')[0];
+    const startIsoDate = new Date(startYear, startMonth - 1, startDay).toISOString().split('T')[0]
+
     try {
       await IARepo.leave({
         ...leaveData,
-        startDate: new Date(leaveData.startDate),
-        endDate: new Date(leaveData.endDate),
+        startDate: `${startIsoDate}T11:00:00.000Z`,
+        endDate: `${endIsoDate}T23:00:00.000Z`,
       });
       navigate(-1);
       enqueueSnackbar(formatMessage("leave_requested_msg"), {
@@ -99,10 +106,13 @@ const LeavePage = () => {
                 disablePast
                 defaultValue={dayjs()}
                 onChange={(newValue) =>
+                  { 
+                    console.log("Date chooosen", dayjs(newValue).format("DD-MM-YYYY"))
                   setLeaveData({
                     ...leaveData,
                     startDate: dayjs(newValue).format("DD-MM-YYYY"),
                   })
+                  }
                 }
                 onError={(newError) => setError(newError)}
                 slotProps={{
@@ -117,11 +127,12 @@ const LeavePage = () => {
                 disablePast
                 defaultValue={dayjs()}
                 minDate={dayjs(leaveData.startDate, "DD-MM-YYYY")}
-                onChange={(newValue) =>
+                onChange={(newValue) =>{
+                  console.log("end Date chooosen", dayjs(newValue).format("DD-MM-YYYY"))
                   setLeaveData({
                     ...leaveData,
                     endDate: dayjs(newValue).format("DD-MM-YYYY"),
-                  })
+                  })}
                 }
                 onError={(newError) => setError(newError)}
                 slotProps={{
