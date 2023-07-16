@@ -1,14 +1,16 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import DashboardPage from "./pages/dashboard.page";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Badge } from "@mui/material";
 import { useLocale } from "@locale";
 import { routes } from "routes/routes";
 import PairProgramming from "./pages/pp.page";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CreateUser from "./pages/create-user.page";
 import ManageRolePage from "./pages/manageRole.page";
 import ManageLeaves from "./pages/manage-leaves";
 import UploadSheetDialog from "./components/upload-sheet-dialog";
+import { AdminRepo } from "./service/repo";
+import { AdminLeaveTabs } from "./enum/leave-tab.enum";
 
 export function ManageProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,6 +63,18 @@ const AdminRoutes = () => {
   const { formatMessage } = useLocale();
   const navigate = useNavigate();
   const [uploadSheetDialog, serUploadSheetDialog] = useState(false);
+  const [pendingLeaves, setPendingLeaves] = useState<number>(0);
+
+  useEffect(() => {
+    async function getLeaveData() {
+      try {
+        const data = await AdminRepo.getLeaves(AdminLeaveTabs.Pending);
+        setPendingLeaves(data.total || 0);
+      } catch (error) {}
+    }
+
+    getLeaveData();
+  }, []);
 
   return (
     <>
@@ -83,14 +97,16 @@ const AdminRoutes = () => {
         >
           {formatMessage("pair_programming")}
         </Button>
-        <Button
-          size="small"
-          variant="contained"
-          color="secondary"
-          onClick={() => navigate(routes.admin.leave)}
-        >
-          {formatMessage("leave")}
-        </Button>
+        <Badge badgeContent={pendingLeaves} color="primary">
+          <Button
+            size="small"
+            variant="contained"
+            color="secondary"
+            onClick={() => navigate(routes.admin.leave)}
+          >
+            {formatMessage("leave")}
+          </Button>
+        </Badge>
 
         <Button
           size="small"
@@ -108,10 +124,7 @@ const AdminRoutes = () => {
         <Route path="/manageRole" Component={ManageRolePage} />
         <Route path="/leave" Component={ManageLeaves} />
       </Routes>
-      <UploadSheetDialog
-        open={uploadSheetDialog}
-        onClose={() => serUploadSheetDialog(false)}
-      />
+      <UploadSheetDialog open={uploadSheetDialog} onClose={() => serUploadSheetDialog(false)} />
     </>
   );
 };

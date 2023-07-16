@@ -83,5 +83,8 @@
   "upload_sheet_dialog_title": "Downlaod Tamplate or Upload sheet",
   "sheet_uploaded_msg": "Sheet has been uploaded successfully.",
   "apply_leave": "Apply Leave",
-  "view_status": "View Status"
+  "view_status": "View Status",
+  "no_leave_available": "No Leave Available",
+  "leave_task_dialog_title": "Handover tasks",
+  "self_assign": "Selft Assigned"
 }

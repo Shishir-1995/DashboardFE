@@ -6,6 +6,7 @@ import { ApiSlotResDto, SlotsForIa } from "../dto/ia.pp-slots.dto";
 import { IaAdhocBooking } from "../dto/ia.adhoc-list";
 import { ApiResDto } from "modules/common/dto/success.dto";
 import { LeaveFormData } from "../components/leave/leave.page";
+import { LeaveData } from "modules/common/dto/leave.dto";
 
 class IARepoImp {
   public async getStudentList(
@@ -110,13 +111,18 @@ class IARepoImp {
   }
 
   public async leave(leaveData: LeaveFormData): Promise<void> {
-    await httpClient.post(`/v1/leave?scope=apply`, { data: leaveData });
+    await httpClient.post(`/v1/leave?type=apply`, { data: leaveData });
   }
 
   public async getLeaves(page: number = 1) {
-    const { data } = await httpClient.post<PaginatedResDto<Object[]>>(
+    const { data } = await httpClient.post<PaginatedResDto<LeaveData>>(
       `/v1/leave/view?type=all&?page=${page}`
     );
+
+    return data;
+  }
+  public async cancelLeave(id: number) {
+    const { data } = await httpClient.post(`/v1/leave?type=cancel`, { data: { id } });
 
     return data;
   }

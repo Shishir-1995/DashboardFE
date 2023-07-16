@@ -2,7 +2,6 @@ import { useTheme } from "@emotion/react";
 import {
   AppBar,
   Avatar,
-  Button,
   Container,
   IconButton,
   Toolbar,
@@ -24,12 +23,8 @@ interface props {
 
 const AppWrapper: React.FC<props> = ({ children }) => {
   const theme = useTheme();
-  const [userName, setUserName] = useState<string | undefined>(
-    getCookie("userName")
-  );
-  const [profileData, setProfileData] = useState<
-    StudentProfileDto | IAProfileDto
-  >();
+  const [userName, setUserName] = useState<string | undefined>(getCookie("userName"));
+  const [profileData, setProfileData] = useState<StudentProfileDto | IAProfileDto>();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const navigate = useNavigate();
@@ -58,8 +53,7 @@ const AppWrapper: React.FC<props> = ({ children }) => {
   const getName = (data: string): void => {
     let temp_userName = data;
     let firstName = temp_userName.split(" ")[0];
-    const capitalizedFirstName =
-      firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
     setUserName(capitalizedFirstName);
   };
@@ -83,19 +77,11 @@ const AppWrapper: React.FC<props> = ({ children }) => {
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters className="flex justify-between">
-            <img
-              src="https://masaischool.com/img/navbar/logo.svg"
-              loading="lazy"
-            />
+            <img src="https://masaischool.com/img/navbar/logo.svg" loading="lazy" />
 
             <div className="flex items-center gap-2">
               <Typography color="black">Hello, {userName}</Typography>
-              <IconButton
-                size="small"
-                color="primary"
-                onClick={handleClick}
-                aria-describedby={id}
-              >
+              <IconButton size="small" color="primary" onClick={handleClick} aria-describedby={id}>
                 <Avatar className="bg-gray-500">
                   {typeof userName === "string" && stringAvatar(userName)}
                 </Avatar>
@@ -112,25 +98,15 @@ const AppWrapper: React.FC<props> = ({ children }) => {
                 color="info"
                 sx={{ "& .MuiPopover-paper": { paddingY: "12px" } }}
               >
-                <Typography
-                  className="px-3"
-                  fontWeight={"shadow_5"}
-                  variant="h4"
-                >
+                <Typography className="px-3" fontWeight={"shadow_5"} variant="h4">
                   {getCookie("userName")}
                 </Typography>
-                <Typography
-                  className="px-3 pb-3"
-                  fontStyle={"italic"}
-                  fontSize={"14px"}
-                >
+                <Typography className="px-3 pb-3" fontStyle={"italic"} fontSize={"14px"}>
                   {getCookie("email")}
                 </Typography>
                 {getCookie("role") === UserRole.IA && (
                   <>
-                    <MenuItem onClick={integrateGoogle}>
-                      Integrate Google{" "}
-                    </MenuItem>
+                    <MenuItem onClick={integrateGoogle}>Integrate Google </MenuItem>
                     <MenuItem onClick={integrateZoom}>Integrate Zoom </MenuItem>
                   </>
                 )}
@@ -139,6 +115,7 @@ const AppWrapper: React.FC<props> = ({ children }) => {
                     eraseCookie("role");
                     eraseCookie("userName");
                     eraseCookie("accessToken");
+                    eraseCookie("email");
                     navigate("/auth/login");
                   }}
                 >

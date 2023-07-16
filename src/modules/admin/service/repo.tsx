@@ -9,6 +9,7 @@ import { GetRolesDto } from "../dto/admin.dto";
 import { CreateUserDto } from "../dto/user.dto";
 import { AdminLeaveTabs } from "../enum/leave-tab.enum";
 import { AdminStatistics } from "../dto/statistics.dto";
+import { LeaveData } from "modules/common/dto/leave.dto";
 
 class AdminRepoImp {
   public async getStudentList(
@@ -51,11 +52,15 @@ class AdminRepoImp {
   }
 
   public async getLeaves(type: AdminLeaveTabs, page: number = 1) {
-    const { data } = await httpClient.post<PaginatedResDto<Object[]>>(
+    const { data } = await httpClient.post<PaginatedResDto<LeaveData>>(
       `/v1/leave/view?type=${type}&?page=${page}`
     );
 
     return data;
+  }
+
+  public async approveORRejectLeave(id: number, type: "approve" | "reject") {
+    await httpClient.post(`/v1/leave?scope=${type}`, { data: { id } });
   }
 
   public async getStatistics() {

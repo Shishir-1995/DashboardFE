@@ -48,6 +48,7 @@ const LeavePage = () => {
   const navigate = useNavigate();
 
   async function handleForm(e: React.BaseSyntheticEvent) {
+    console.log(leaveData);
     e.preventDefault();
     const startDate : any = leaveData.startDate
     const endDate : any = leaveData.endDate
