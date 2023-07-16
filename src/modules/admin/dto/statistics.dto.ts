@@ -19,9 +19,18 @@ export interface LeaderGraph {
     y: number;
   }[];
 }
+export interface LeaderboardData {
+  course: string;
+  email: string;
+  name: string;
+  ppDone: number;
+  ppOccupancy: number;
+  ppPossible: number;
+}
 
 export interface AdminStatistics {
   bookedOccupancy: StatisticsCard;
   leaderboard: Leaderboard[];
   leaderGraph: LeaderGraph[];
+  leaderboardData: LeaderboardData[];
 }

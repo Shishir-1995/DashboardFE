@@ -4,8 +4,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import LineChart from "../components/LineChart";
 import { theme, tokens } from "styles/theme";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import { mockTransactions } from "../data/mockdata";
 import { useGetStatistics } from "../service/hooks";
+import { Leaderboard } from "../components/leader-board";
 
 const DashboardPage = () => {
   const colors = tokens(theme.palette.mode);
@@ -76,9 +76,7 @@ const DashboardPage = () => {
                 borderBottom={`4px solid ${colors.primary[500]}`}
                 p="15px"
               >
-                <Typography color={colors.grey[100]}>
-                  {leaderboard.name}
-                </Typography>
+                <Typography color={colors.grey[100]}>{leaderboard.name}</Typography>
 
                 <Box color={colors.grey[100]}>{leaderboard.bookedSlot}</Box>
 
@@ -95,7 +93,7 @@ const DashboardPage = () => {
             ))}
         </Box>
       </div>
-
+      <Leaderboard data={data?.data.leaderboardData || []} />
       <Box
         className="mt-10"
         display="grid"
@@ -119,19 +117,13 @@ const DashboardPage = () => {
             alignItems="center"
           >
             <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
+              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
                 Pair Programming Graph
               </Typography>
             </Box>
             <Box>
               <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
+                <DownloadOutlinedIcon sx={{ fontSize: "26px", color: colors.greenAccent[500] }} />
               </IconButton>
             </Box>
           </Box>
