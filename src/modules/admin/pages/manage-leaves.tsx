@@ -1,11 +1,4 @@
-import {
-  Card,
-  Tabs,
-  Tab,
-  Box,
-  TablePagination,
-  Typography,
-} from "@mui/material";
+import { Card, Tabs, Tab, Box, TablePagination, Typography } from "@mui/material";
 
 import { useState, useEffect, useMemo } from "react";
 import { AdminLeaveTabs } from "../enum/leave-tab.enum";
@@ -22,11 +15,7 @@ interface SwitcherProps {
   data: { value: string; name: string }[];
 }
 
-export const SelectorsM: React.FC<SwitcherProps> = ({
-  active,
-  data,
-  onChange,
-}) => {
+export const SelectorsM: React.FC<SwitcherProps> = ({ active, data, onChange }) => {
   const { formatMessage } = useLocale();
 
   return (
@@ -41,9 +30,7 @@ export const SelectorsM: React.FC<SwitcherProps> = ({
 };
 
 const ManageLeaves = () => {
-  const [tabValue, setTabValue] = useState<AdminLeaveTabs>(
-    AdminLeaveTabs.Pending
-  );
+  const [tabValue, setTabValue] = useState<AdminLeaveTabs>(AdminLeaveTabs.Pending);
   const [leaves, setLeaves] = useState<Object[]>([]);
   const [page, setPage] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
@@ -78,8 +65,6 @@ const ManageLeaves = () => {
     setPage(newPage);
   };
 
-  console.log(page, leaves, totalItems);
-
   const leavesData = useMemo(() => {
     if (tabValue === AdminLeaveTabs.Approved) {
       return leaves.map((leave, i) => (
@@ -108,31 +93,17 @@ const ManageLeaves = () => {
   return (
     <>
       <Card className="mt-8">
-        <Tabs
-          className="border-b"
-          value={tabValue}
-          onChange={handleTabChange}
-          variant="fullWidth"
-        >
-          <Tab
-            value={AdminLeaveTabs.Pending}
-            label={formatMessage(AdminLeaveTabs.Pending)}
-          />
-          <Tab
-            value={AdminLeaveTabs.Approved}
-            label={formatMessage(AdminLeaveTabs.Approved)}
-          />
-          <Tab
-            value={AdminLeaveTabs.Rejected}
-            label={formatMessage(AdminLeaveTabs.Rejected)}
-          />
+        <Tabs className="border-b" value={tabValue} onChange={handleTabChange} variant="fullWidth">
+          <Tab value={AdminLeaveTabs.Pending} label={formatMessage(AdminLeaveTabs.Pending)} />
+          <Tab value={AdminLeaveTabs.Approved} label={formatMessage(AdminLeaveTabs.Approved)} />
+          <Tab value={AdminLeaveTabs.Rejected} label={formatMessage(AdminLeaveTabs.Rejected)} />
         </Tabs>
         <Box>
           {leavesData}
 
           <TablePagination
             component="div"
-            count={100}
+            count={totalItems}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={10}

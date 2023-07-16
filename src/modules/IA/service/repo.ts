@@ -1,7 +1,4 @@
-import {
-  PaginatedQueryDto,
-  PaginatedResDto,
-} from "modules/common/dto/paginated.dto";
+import { PaginatedQueryDto, PaginatedResDto } from "modules/common/dto/paginated.dto";
 import { StudentDto } from "modules/student/dto/student.dto";
 import httpClient from "@http-client";
 import { IAPPInfo } from "../dto/ia.pp-data.dto";
@@ -39,10 +36,7 @@ class IARepoImp {
     });
   }
 
-  public async getPPDataInfo(
-    value: string,
-    page: number
-  ): Promise<PaginatedResDto<IAPPInfo>> {
+  public async getPPDataInfo(value: string, page: number): Promise<PaginatedResDto<IAPPInfo>> {
     const { data } = await httpClient.post<PaginatedResDto<IAPPInfo>>(
       "/v1/meeting/data?type=pp-timeline",
       {},
@@ -56,9 +50,7 @@ class IARepoImp {
     return data;
   }
 
-  public async getAdhocSessions(
-    page: number
-  ): Promise<PaginatedResDto<IaAdhocBooking>> {
+  public async getAdhocSessions(page: number): Promise<PaginatedResDto<IaAdhocBooking>> {
     const { data } = await httpClient.post<PaginatedResDto<IaAdhocBooking>>(
       `/pp/getIaAdhocInfo`,
       {},
@@ -119,6 +111,14 @@ class IARepoImp {
 
   public async leave(leaveData: LeaveFormData): Promise<void> {
     await httpClient.post(`/v1/leave?scope=apply`, { data: leaveData });
+  }
+
+  public async getLeaves(page: number = 1) {
+    const { data } = await httpClient.post<PaginatedResDto<Object[]>>(
+      `/v1/leave/view?type=all&?page=${page}`
+    );
+
+    return data;
   }
 }
 
