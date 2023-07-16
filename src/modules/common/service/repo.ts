@@ -2,7 +2,7 @@ import httpClient from "utils/http-client/http-client";
 
 class CommonRepoImp {
   public async integrateZoom() {
-    await httpClient.get("/zoom/authentication");
+    window.open("");
   }
 
   public async integrateGoogle() {

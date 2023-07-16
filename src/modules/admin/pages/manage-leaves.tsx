@@ -1,11 +1,4 @@
-import {
-  Card,
-  Tabs,
-  Tab,
-  Box,
-  TablePagination,
-  Typography,
-} from "@mui/material";
+import { Card, Tabs, Tab, Box, TablePagination, Button } from "@mui/material";
 
 import { useState, useEffect, useMemo } from "react";
 import { AdminLeaveTabs } from "../enum/leave-tab.enum";
@@ -14,37 +7,16 @@ import { HttpClientUtil } from "@http-client";
 import { AdminRepo } from "../service/repo";
 
 import { useLocale } from "@locale";
-import { Selector, Selectors } from "../../common/components/selectors";
-
-interface SwitcherProps {
-  active: string;
-  onChange: (e: string) => void;
-  data: { value: string; name: string }[];
-}
-
-export const SelectorsM: React.FC<SwitcherProps> = ({
-  active,
-  data,
-  onChange,
-}) => {
-  const { formatMessage } = useLocale();
-
-  return (
-    <Selectors value={active} onChange={onChange}>
-      {data.map((el) => (
-        <Selector key={el.value} value={el.value}>
-          <Typography variant="h5">{formatMessage(el.name)}</Typography>
-        </Selector>
-      ))}
-    </Selectors>
-  );
-};
+import { LeaveData } from "modules/common/dto/leave.dto";
+import LeaveTile from "modules/common/components/leave-tile";
+import { getCookie } from "utils/cookies/cookies";
+import { LeaveStatus } from "modules/common/enum/leave-status.enum";
 
 const ManageLeaves = () => {
   const [tabValue, setTabValue] = useState<AdminLeaveTabs>(
     AdminLeaveTabs.Pending
   );
-  const [leaves, setLeaves] = useState<Object[]>([]);
+  const [leaves, setLeaves] = useState<LeaveData[]>([]);
   const [page, setPage] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
   const { formatMessage } = useLocale();
@@ -78,28 +50,48 @@ const ManageLeaves = () => {
     setPage(newPage);
   };
 
-  console.log(page, leaves, totalItems);
+  async function handleApproveOrReject(id: number, type: "approve" | "reject") {
+    try {
+      await AdminRepo.approveORRejectLeave(id, type);
+    } catch (error) {
+      const msg = HttpClientUtil.getErrorMsgKey(error);
+      enqueueSnackbar(msg, { variant: "error" });
+    }
+  }
 
   const leavesData = useMemo(() => {
     if (tabValue === AdminLeaveTabs.Approved) {
-      return leaves.map((leave, i) => (
-        <div key={i}>
-          <div className="flex gap-4">
-            <SelectorsM
-              data={Object.keys(AdminLeaveTabs).map((tab) => ({
-                name: tab,
-                value: tab,
-              }))}
-              active={AdminLeaveTabs.Pending}
-              onChange={(data) => console.log(data)}
-            />
-          </div>
-        </div>
+      return leaves.map((leave) => (
+        <LeaveTile key={leave.id} leave={leave}></LeaveTile>
       ));
     } else if (tabValue === AdminLeaveTabs.Pending) {
-      return <></>;
+      return leaves.map((leave) => (
+        <LeaveTile key={leave.id} leave={leave}>
+          {getCookie("role") === "Admin" ? (
+            <div className="flex gap-4">
+              <Button
+                variant="contained"
+                onClick={() => handleApproveOrReject(leave.id, "approve")}
+              >
+                approve
+              </Button>
+              <Button
+                variant="outlined"
+                color="warning"
+                onClick={() => handleApproveOrReject(leave.id, "reject")}
+              >
+                reject
+              </Button>
+            </div>
+          ) : (
+            <></>
+          )}
+        </LeaveTile>
+      ));
     } else if (tabValue === AdminLeaveTabs.Rejected) {
-      return <></>;
+      return leaves.map((leave) => (
+        <LeaveTile key={leave.id} leave={leave}></LeaveTile>
+      ));
     } else {
       return <></>;
     }
@@ -132,11 +124,11 @@ const ManageLeaves = () => {
 
           <TablePagination
             component="div"
-            count={100}
+            count={leaves.length}
             page={page}
             onPageChange={handleChangePage}
             rowsPerPage={10}
-            rowsPerPageOptions={[]}
+            rowsPerPageOptions={[5, 10, 15]}
           />
         </Box>
       </Card>
